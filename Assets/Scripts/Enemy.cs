@@ -9,6 +9,7 @@ public enum Active {
 }
 
 public class Enemy : Entity {
+    // Enemy 스크립터블 참조 예정
     [SerializeField]
     private int attack = 2;
     private Active action;
