@@ -43,4 +43,18 @@ public class Card : MonoBehaviour {
             transform.localScale = prs.scale;
         }
     }
+
+    private void OnMouseOver() {
+        CardManager.Instance.CardMouseOver(this);
+    }
+
+    private void OnMouseExit() {
+        CardManager.Instance.CardMouseExit(this);
+    }
+    private void OnMouseDown() {
+        CardManager.Instance.CardMouseDown();
+    }
+    private void OnMouseUp() {
+        CardManager.Instance.CardMouseUp();
+    }
 }

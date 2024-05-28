@@ -20,20 +20,32 @@ public class CardManager : MonoBehaviour {
     private Transform myCardLeft;
     [SerializeField]
     private Transform myCardRight;
+    [SerializeField]
+    private ECardState eCardState;
+    private Card selectCard;
+    private bool isDraggable;
+    private bool onCardArea;
+    private enum ECardState { Nothing, CanMouserOver, CanMouseDrag }
 #endregion
 #region UnityEventFunction
     void Start() {
         SetupListBuffer();
+        TurnManager.OnAddCard += AddCard;
     }
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            AddCard();
-        }
+        if (isDraggable)
+            CardDrag();
+
+        DetectCardArea();
+        SetECardState();
+    }
+    void OnDestroy() {
+        TurnManager.OnAddCard -= AddCard;
     }
 #endregion
 #region Functions
     private void SetupListBuffer() {
-        listBuffer = new List<Item>(100);
+        listBuffer = new List<Item>();
         for (int i=0; i<itemSO.Length; i++) {
             Item item = itemSO[i].items[0];
             for (int j=0; j<item.count; j++) {
@@ -49,9 +61,9 @@ public class CardManager : MonoBehaviour {
     }
     public Item PopList() {
         if (listBuffer.Count == 0) {
-	        Debug.Log("카드 전부 뽑음");
+            Debug.Log("카드 전부 뽑음");
             SetupListBuffer();
-	    }
+        }
         
         Item temp = listBuffer[0];
         listBuffer.RemoveAt(0);
@@ -129,5 +141,63 @@ public class CardManager : MonoBehaviour {
 
         return results;
     }
+
+    #region Card
+    public void CardMouseOver(Card card) {
+        if (eCardState == ECardState.Nothing)
+            return;
+
+        selectCard = card;
+        EnLargeCard(true, card);
+    }
+    public void CardMouseExit(Card card) {
+        EnLargeCard(false, card);
+    }
+    public void CardMouseDown() {
+        if (eCardState != ECardState.CanMouseDrag)
+            return;
+
+        isDraggable = true;
+    }
+    public void CardMouseUp() {
+        isDraggable = false;
+
+        if (eCardState != ECardState.CanMouseDrag)
+            return;
+    }
+    private void CardDrag()
+    {
+        if (!onCardArea) {
+            selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
+        }
+    }
+    private void DetectCardArea() {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
+        int layer = LayerMask.NameToLayer("CardArea");
+        onCardArea = Array.Exists(hits, x => x.collider.gameObject.layer == layer);
+    }
+    private void SetECardState()
+    {
+        if (TurnManager.Instance.isLoading) {
+            eCardState = ECardState.Nothing;
+        } else if (!TurnManager.Instance.myTurn) {
+            eCardState = ECardState.CanMouserOver;
+        } else if (TurnManager.Instance.myTurn) {
+            eCardState = ECardState.CanMouseDrag;
+        }
+    }
+    private void EnLargeCard(bool isEnLarge, Card card) {
+
+        if (isEnLarge) {
+            Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -2f, -10f);
+            
+            card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.65f), false);
+        } else {
+            card.MoveTransform(card.originPRS, false);
+        }
+
+        card.GetComponent<Order>().SetMostFrontOrder(isEnLarge);
+    }
+    #endregion
 #endregion
 }
