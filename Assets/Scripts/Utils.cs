@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -18,6 +19,7 @@ public class PRS {
 
 public class Utils
 {
+    public static Vector3 VZ => Vector3.zero;
     public static Quaternion QI => Quaternion.identity;
 
     public static Vector3 MousePos
