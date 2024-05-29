@@ -57,8 +57,8 @@ public class CardManager : MonoBehaviour {
     private void SetupListBuffer() {
         listBuffer = new List<Item>();
         for (int i=0; i<itemSO.Length; i++) {
-            Item item = itemSO[i].items[0];
-            for (int j=0; j<3; j++) {
+            Item item = itemSO[i].item;
+            for (int j=0; j<itemSO[i].item.count; j++) {
                 listBuffer.Add(item);
             }
         }
