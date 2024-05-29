@@ -11,7 +11,7 @@ public class Item {
     public Sprite main;         // 메인 이미지
     public Sprite background;   // 배경 이미지
     public string text;         // 능력 설명
-    public int count;           // 카드 장수
+    //public int count;           // 카드 장수
 }
 
 [CreateAssetMenu(fileName="ItemSO", menuName="Scriptable Object/ItemSO")]

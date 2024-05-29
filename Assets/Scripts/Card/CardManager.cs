@@ -6,13 +6,23 @@ using UnityEngine;
 public class CardManager : MonoBehaviour {
 #region Singleton
     public static CardManager Instance {get; private set;}
-    void Awake() => Instance = this;
+    void Awake() {
+        if (Instance != this && Instance != null) {
+            Destroy(gameObject);
+            return;
+        } else {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 #endregion
 #region Variables
     [SerializeField]
 	private GameObject cardPrefab;
     public ItemSO[] itemSO;
     private List<Item> listBuffer;
+    private List<Item> myCardList;
+    // 카드 덱
     private List<Card> myCards;
     [SerializeField]
     private Transform cardSpawnPoint;
@@ -48,7 +58,7 @@ public class CardManager : MonoBehaviour {
         listBuffer = new List<Item>();
         for (int i=0; i<itemSO.Length; i++) {
             Item item = itemSO[i].items[0];
-            for (int j=0; j<item.count; j++) {
+            for (int j=0; j<3; j++) {
                 listBuffer.Add(item);
             }
         }
