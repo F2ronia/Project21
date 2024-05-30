@@ -16,8 +16,8 @@ MonoBehaviour:
     name: armor
     cost: 0
     value: 0
-    main: {fileID: 0}
-    background: {fileID: 0}
+    main: {fileID: 21300000, guid: 41648d2cb6fa3d34e9cfec513f517352, type: 3}
+    background: {fileID: 21300000, guid: 5c05e361e4f20b34da15b0bd24eea507, type: 3}
     text: 
     count: 2
     type: 0

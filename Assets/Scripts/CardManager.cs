@@ -197,6 +197,13 @@ public class CardManager : MonoBehaviour {
 
         if (eCardState != ECardState.CanMouseDrag)
             return;
+
+        if (onCardArea) {
+            EntityManager.Instance.RemoveEmptyEntity();
+        } else {
+            TryUseCard();
+            Debug.Log("test2");
+        }
     }
     private void CardDrag()
     {
@@ -204,6 +211,13 @@ public class CardManager : MonoBehaviour {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
         }
     }
+
+    public bool TryUseCard() {
+        
+
+        return false;
+    }
+
     private void DetectCardArea() {
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
         int layer = LayerMask.NameToLayer("CardArea");
