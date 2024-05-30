@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1249df3a661183045bdbcb7b7f730c6f, type: 3}
   m_Name: Normal_Armor
   m_EditorClassIdentifier: 
-  items:
-  - name: "\uAE30\uBCF8 \uBC29\uC5B4"
-    cost: 2
-    value: 1
-    main: {fileID: 21300000, guid: 41648d2cb6fa3d34e9cfec513f517352, type: 3}
-    background: {fileID: 21300000, guid: 5c05e361e4f20b34da15b0bd24eea507, type: 3}
-    text: "\uBC29\uC5B4\uB3C4 X 1\uB97C \uC5BB\uC2B5\uB2C8\uB2E4."
-    count: 3
+  item:
+    name: armor
+    cost: 0
+    value: 0
+    main: {fileID: 0}
+    background: {fileID: 0}
+    text: 
+    count: 2
+    type: 0

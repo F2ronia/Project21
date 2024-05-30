@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour {
@@ -41,6 +42,7 @@ public class CardManager : MonoBehaviour {
     void Start() {
         SetupListBuffer();
         TurnManager.OnAddCard += AddCard;
+        TurnManager.OnTurnStarted += OnTurnStarted;
     }
     void Update() {
         if (isDraggable)
@@ -51,9 +53,17 @@ public class CardManager : MonoBehaviour {
     }
     void OnDestroy() {
         TurnManager.OnAddCard -= AddCard;
+        TurnManager.OnTurnStarted -= OnTurnStarted;
     }
 #endregion
 #region Functions
+    private void OnTurnStarted(bool myTurn) {
+        // 플레이어 마나회복
+        // 카드 뽑기
+        if (myTurn)
+            Debug.Log("턴 돌아옴");
+    }
+
     private void SetupListBuffer() {
         listBuffer = new List<Item>();
         for (int i=0; i<itemSO.Length; i++) {
@@ -61,15 +71,20 @@ public class CardManager : MonoBehaviour {
             for (int j=0; j<itemSO[i].item.count; j++) {
                 listBuffer.Add(item);
             }
+            if (itemSO[i].item.type == Item.Type.Normal) {
+                myCardList.Add(item);
+                //Debug.Log("카드 추가 : " + item);
+            }
         }
-        for (int i=0; i<listBuffer.Count; i++) {
-            int rand = UnityEngine.Random.Range(i, listBuffer.Count);
-            Item temp = listBuffer[i];
-            listBuffer[i] = listBuffer[rand];
-            listBuffer[rand] = temp;
+        for (int i=0; i<myCardList.Count; i++) {
+            int rand = UnityEngine.Random.Range(i, myCardList.Count);
+            Item temp = myCardList[i];
+            myCardList[i] = myCardList[rand];
+            myCardList[rand] = temp;
         }
     }
     public Item PopList() {
+        /*
         if (listBuffer.Count == 0) {
             Debug.Log("카드 전부 뽑음");
             SetupListBuffer();
@@ -78,8 +93,18 @@ public class CardManager : MonoBehaviour {
         Item temp = listBuffer[0];
         listBuffer.RemoveAt(0);
         return temp;
+
+    */
+        if (myCardList.Count == 0) {
+            Debug.Log("카드 전부 뽑음");
+            SetupListBuffer();
+        } 
+
+        Item temp = myCardList[0];
+        myCardList.RemoveAt(0);
+        return temp;
     }
-    
+
 	private void AddCard() {
 		var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
 		var card = cardObject.GetComponent<Card>();
@@ -147,8 +172,6 @@ public class CardManager : MonoBehaviour {
 
             results.Add(new PRS(targetPos, targetRot, scale));
         }
-
-
         return results;
     }
 

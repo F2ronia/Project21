@@ -25,6 +25,7 @@ public class TurnManager : MonoBehaviour
     private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
     public static Action OnAddCard;
+    public static event Action<bool> OnTurnStarted;
 
     private enum ETurnMode { Random, My, Ohter }
 #endregion

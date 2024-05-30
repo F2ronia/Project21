@@ -11,8 +11,6 @@ public enum Active {
 
 public class Enemy : Entity {
     // Enemy 스크립터블 참조 예정
-    [SerializeField]
-    private int attack = 2;
     private Active action;
 
     void Start() {
@@ -35,7 +33,7 @@ public class Enemy : Entity {
                     action = Active.Enforce;
                     break;
             }
-            Debug.Log(action);
+            //Debug.Log(action);
             isMyTurn = false;
         }
     }

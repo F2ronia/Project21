@@ -1,9 +1,15 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using DG.Tweening;
 
 public class Entity : MonoBehaviour
 {
-    public float startHealth = 50;
+    public string _name;
+    // 객체 이름
+    public float startHealth;
     // 시작 체력
     public float health { get; protected set; }
     // 현재 체력
@@ -15,9 +21,28 @@ public class Entity : MonoBehaviour
     // 사망 여부
     public bool isMyTurn { get; protected set; }
     // 자기 턴 체크
+    public Status status;
+    public Vector3 originPos;
     public event Action OnDeath;
     // 사망 이벤트
+#region SetupFunctino
+    public void Setup(Status _status) {
+        this.status = _status;
 
+        _name = _status.name;
+        startHealth = health = _status.health;
+        attack = _status.attack;
+        armor = _status.armor;
+    }
+    public void MoveTransform(Vector3 pos, bool useDotween, float dotweenTime = 0) {
+        if (useDotween) {
+            transform.DOMove(pos, dotweenTime);
+        } else {
+            transform.position = pos;
+        }
+    }
+#endregion
+#region BattleFunction
     protected virtual void OnEnable() {
     // 생성 시 리셋
         isDead = false;
@@ -57,4 +82,5 @@ public class Entity : MonoBehaviour
 
         isDead = true;
     }
+#endregion
 }

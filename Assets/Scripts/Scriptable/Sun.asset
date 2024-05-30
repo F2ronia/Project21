@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1249df3a661183045bdbcb7b7f730c6f, type: 3}
-  m_Name: Normal_Change
+  m_Name: Sun
   m_EditorClassIdentifier: 
-  items:
-  - name: "\uAE30\uBCF8 \uAD50\uCCB4"
-    cost: 1
-    value: 1
-    main: {fileID: 21300000, guid: 41648d2cb6fa3d34e9cfec513f517352, type: 3}
-    background: {fileID: 21300000, guid: 5c05e361e4f20b34da15b0bd24eea507, type: 3}
-    text: "\uCE74\uB4DC\uB97C 1\uC7A5 \uBC84\uB9AC\uACE0 1\uC7A5 \uC0C8\uB85C \uBF51\uC2B5\uB2C8\uB2E4."
+  item:
+    name: sun
+    cost: 0
+    value: 0
+    main: {fileID: 0}
+    background: {fileID: 0}
+    text: 
     count: 2
+    type: 1
