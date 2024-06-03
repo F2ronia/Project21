@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class CardManager : MonoBehaviour {
 #region Singleton
@@ -17,32 +18,36 @@ public class CardManager : MonoBehaviour {
         }
     }
 #endregion
-#region Variables
-    [SerializeField]
-	private GameObject cardPrefab;
-    public ItemSO[] itemSO;
-    private List<Item> listBuffer;
-    private List<Item> myCardList;
-    // 카드 덱
-    private List<Card> myCards;
-    [SerializeField]
-    private Transform cardSpawnPoint;
+#region SerializeField
     [SerializeField]
     private Transform myCardLeft;
     [SerializeField]
     private Transform myCardRight;
     [SerializeField]
     private ECardState eCardState;
+#endregion
+#region Public/Private
+    public ItemSO[] itemSO;
+    private List<Item> listBuffer;
+    // 플레이용 카드 버퍼
+    private List<Item> allCardList;
+    // 전체 카드 리스트
+    private List<Item> myCardList;
+    // 카드 덱
+    private List<Card> myCards;
+    // 현재 플레이어가 소지한 카드
     private Card selectCard;
     private bool isDraggable;
     private bool onCardArea;
     private enum ECardState { Nothing, CanMouserOver, CanMouseDrag }
+    private enum NormalCard { Attack, Armor, Heal }
 #endregion
 #region UnityEventFunction
     void Start() {
         SetupListBuffer();
         TurnManager.OnAddCard += AddCard;
         TurnManager.OnTurnStarted += OnTurnStarted;
+        TurnManager.OnTurnEnd += OnTurnEnd;
     }
     void Update() {
         if (isDraggable)
@@ -54,65 +59,105 @@ public class CardManager : MonoBehaviour {
     void OnDestroy() {
         TurnManager.OnAddCard -= AddCard;
         TurnManager.OnTurnStarted -= OnTurnStarted;
+        TurnManager.OnTurnEnd -= OnTurnEnd;
     }
 #endregion
 #region Functions
     private void OnTurnStarted(bool myTurn) {
         // 플레이어 마나회복
         // 카드 뽑기
-        if (myTurn)
+        if (myTurn) {
             Debug.Log("턴 돌아옴");
+        }
+    }
+    private void OnTurnEnd(bool myTurn) {
+        if (myTurn) {
+            for (int i=myCards.Count-1; i>=0; i--) {
+                //Destroy(myCards[i].gameObject, .5f);
+                DestoryCard(myCards[i]);
+                myCards.RemoveAt(i);
+            }
+        }
+    }
+
+    private void DestoryCard(Card card) {
+        ObjectPooling.ReturnObject(card);
     }
 
     private void SetupListBuffer() {
-        listBuffer = new List<Item>();
+    // 전체 카드 데이터 불러오기
+        allCardList = new List<Item>();
+
         for (int i=0; i<itemSO.Length; i++) {
-            Item item = itemSO[i].item;
-            for (int j=0; j<itemSO[i].item.count; j++) {
-                listBuffer.Add(item);
-            }
-            if (itemSO[i].item.type == Item.Type.Normal) {
-                myCardList.Add(item);
-                //Debug.Log("카드 추가 : " + item);
-            }
+            Item item = itemSO[i].item;        
+            allCardList.Add(item);
+
+            SetupMyCardList(item);
+            // 초기 카드 세팅
         }
-        for (int i=0; i<myCardList.Count; i++) {
-            int rand = UnityEngine.Random.Range(i, myCardList.Count);
-            Item temp = myCardList[i];
-            myCardList[i] = myCardList[rand];
-            myCardList[rand] = temp;
+    }
+    private void SetupMyCardList(Item item) {
+    // 초기 카드 세팅
+        if (item.type == Item.Type.Normal) {
+        // 기본 카드 추가
+        // 공격 5 : 방어 3 : 회복 2
+            switch(item.num) {
+                case 1: // Attack
+                    for (int i=0; i<5; i++)
+                        myCardList.Add(item);
+                    break;
+                case 2: // Armor
+                    for (int i=0; i<3; i++)
+                        myCardList.Add(item);
+                    break;
+                case 3: // Heal
+                    for (int i=0; i<2; i++)
+                        myCardList.Add(item);
+                    break;
+            }
+            //Debug.Log("카드 추가 : " + item);
+        }
+
+        SetupMyCardList();
+        // 내 카드 데이터 세팅
+    }
+    private void SetupMyCardList() {
+    // 내 카드 데이터 불러오기
+        listBuffer = new List<Item>();
+        
+        for (int i=myCardList.Count-1; i>=0; i--) {
+        // 플레이용 버퍼에 카드 데이터 저장
+            Item item = myCardList[i];        
+            listBuffer.Add(item);
+        }
+
+        for (int i=0; i<listBuffer.Count; i++) {
+        // 셔플
+            int rand = UnityEngine.Random.Range(i, listBuffer.Count);
+            Item temp = listBuffer[i];
+            listBuffer[i] = listBuffer[rand];
+            listBuffer[rand] = temp;
         }
     }
     public Item PopList() {
-        /*
         if (listBuffer.Count == 0) {
-            Debug.Log("카드 전부 뽑음");
-            SetupListBuffer();
-        }
-        
+            SetupMyCardList();
+        } 
+
         Item temp = listBuffer[0];
         listBuffer.RemoveAt(0);
         return temp;
-
-    */
-        if (myCardList.Count == 0) {
-            Debug.Log("카드 전부 뽑음");
-            SetupListBuffer();
-        } 
-
-        Item temp = myCardList[0];
-        myCardList.RemoveAt(0);
-        return temp;
     }
 
-	private void AddCard() {
-		var cardObject = Instantiate(cardPrefab, cardSpawnPoint.position, Utils.QI);
-		var card = cardObject.GetComponent<Card>();
-		card.Setup(PopList());
-        myCards.Add(card);
+	private void AddCard(bool myTurn) {
+        if (myTurn) {
+            var card = ObjectPooling.GetObject();
+            card.Setup(PopList());
+            myCards.Add(card);
 
-        SetOriginOrder();
-        CardAlignment();
+            SetOriginOrder();
+            CardAlignment();
+        }
 	}
 
     private void SetOriginOrder() {
@@ -201,8 +246,8 @@ public class CardManager : MonoBehaviour {
         if (onCardArea) {
             EntityManager.Instance.RemoveEmptyEntity();
         } else {
-            TryUseCard();
-            Debug.Log("test2");
+            TryUseCard(selectCard);
+
         }
     }
     private void CardDrag()
@@ -212,11 +257,28 @@ public class CardManager : MonoBehaviour {
         }
     }
 
-    public bool TryUseCard() {
-        
-
+    public bool TryUseCard(Card card) {
+        switch(card.item.target) {
+            case Item.Target.My:
+            case Item.Target.All:
+                card.CallActive(null, card.item.num);
+                break;
+            case Item.Target.Enemy:
+                EntityManager.Instance.EntityMouseDrag();
+                var target = EntityManager.Instance.targetPickEntity;
+                if (target != null) {
+                    card.CallActive(target, card.item.num);
+                }
+                break;
+        }
+        DestoryCard(card);
+        myCards.Remove(card);
+        SetOriginOrder();
+        CardAlignment();
         return false;
     }
+
+    
 
     private void DetectCardArea() {
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);

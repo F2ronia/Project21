@@ -8,11 +8,11 @@ public class Status {
     // 이름
     public Sprite main;
     // 이미지
-    public float attack;
+    public int attack;
     // 공격력
-    public float armor;
+    public int armor;
     // 방어도
-    public float health;
+    public int health;
     // 체력
 }
 

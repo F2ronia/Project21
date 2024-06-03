@@ -17,4 +17,4 @@ MonoBehaviour:
     main: {fileID: 21300000, guid: 6cec49b8cf82b834796bd3479d5f6250, type: 3}
     attack: 1
     armor: 1
-    health: 1
+    health: 10

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,31 +11,27 @@ public enum Active {
 }
 
 public class Enemy : Entity {
-    // Enemy 스크립터블 참조 예정
-    private Active action;
-
     void Start() {
-        isMyTurn = true;
+        TurnManager.OnTurnStarted += OnTurnStarted;
     }
 
-    void Update() {
-        if (Input.GetMouseButtonDown(0))
-            isMyTurn = true;
+    void OnDestroy() {
+        TurnManager.OnTurnStarted -= OnTurnStarted;
+    }
 
-        if (isMyTurn) {
-            switch(Random.Range(0, 3)) {
-                case 0:
-                    action = Active.Attack;
-                    break;
-                case 1:
-                    action = Active.Defence;
-                    break;
-                case 2:
-                    action = Active.Enforce;
-                    break;
-            }
-            //Debug.Log(action);
-            isMyTurn = false;
+    private void OnTurnStarted(bool myTurn) {
+        if (!myTurn)
+            StartCoroutine(EnemyAI());
+    }
+
+    private IEnumerator EnemyAI() {
+
+        Debug.Log("에너미 테스트");
+        isActived = true;
+        yield return Utils.D1;
+        if (EntityManager.Instance.EnemyTurnEnd()) {
+            EntityManager.Instance.ResetEnemyIsActive();
+            TurnManager.Instance.EndTurn();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void InputCheatKey() {
         if (Input.GetKeyDown(KeyCode.Space)) {
-            TurnManager.OnAddCard?.Invoke();
+            TurnManager.OnAddCard?.Invoke(true);
         }
         if (Input.GetKeyDown(KeyCode.A)) {
             TurnManager.Instance.EndTurn();

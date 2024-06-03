@@ -21,6 +21,8 @@ public class Utils
 {
     public static Vector3 VZ => Vector3.zero;
     public static Quaternion QI => Quaternion.identity;
+    public static Vector3 SO => Vector3.one;
+    public static WaitForSeconds D1 = new WaitForSeconds(1);
 
     public static Vector3 MousePos
     {

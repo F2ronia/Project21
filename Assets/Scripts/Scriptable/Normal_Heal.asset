@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Normal_Heal
   m_EditorClassIdentifier: 
   item:
+    num: 3
     name: heal
-    cost: 0
-    value: 0
+    cost: 1
+    value: 2
     main: {fileID: 21300000, guid: 41648d2cb6fa3d34e9cfec513f517352, type: 3}
     background: {fileID: 21300000, guid: 5c05e361e4f20b34da15b0bd24eea507, type: 3}
     text: 
-    count: 2
     type: 0
+    target: 0
+    restoreType: 1

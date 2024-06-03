@@ -24,8 +24,9 @@ public class TurnManager : MonoBehaviour
     public bool isLoading;
     private WaitForSeconds delay = new WaitForSeconds(0.5f);
 
-    public static Action OnAddCard;
+    public static Action<bool> OnAddCard;
     public static event Action<bool> OnTurnStarted;
+    public static event Action<bool> OnTurnEnd;
 
     private enum ETurnMode { Random, My, Ohter }
 #endregion
@@ -47,12 +48,7 @@ public class TurnManager : MonoBehaviour
     public IEnumerator StartBattle() {
         BattleSetup();
         isLoading = true;
-
-        for (int i=0; i<startCardCount; i++) {
-            yield return delay;
-            OnAddCard?.Invoke();
-        }
-
+        yield return delay;
         StartCoroutine(StartTurn());
     }
 
@@ -60,12 +56,17 @@ public class TurnManager : MonoBehaviour
         isLoading = true;
         GameManager.Instance.Notification("나의 턴");
         yield return delay;
-        OnAddCard?.Invoke();
+        for (int i=0; i<startCardCount; i++) {
+            yield return delay;
+            OnAddCard?.Invoke(myTurn);
+        }
         isLoading = false;
+        OnTurnStarted?.Invoke(myTurn);
     }
 
     public void EndTurn() {
         myTurn = !myTurn;
+        OnTurnEnd?.Invoke(true);
         StartCoroutine(StartTurn());
     }
 }

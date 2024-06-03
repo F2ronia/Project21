@@ -4,23 +4,26 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 public class Entity : MonoBehaviour
 {
+#region Status
     public string _name;
     // 객체 이름
-    public float startHealth;
+    public int startHealth;
     // 시작 체력
-    public float health { get; protected set; }
+    public int health { get; protected set; }
     // 현재 체력
-    public float attack { get; protected set; }
+    public int attack { get; protected set; }
     // 공격력
-    public float armor { get; protected set; }
+    public int armor { get; protected set; }
     // 방어도
     public bool isDead { get; protected set; }
     // 사망 여부
-    public bool isMyTurn { get; protected set; }
-    // 자기 턴 체크
+    public bool isActived { get; set; }
+    // 행동 여부 체크
+#endregion
     public Status status;
     public Vector3 originPos;
     public event Action OnDeath;
@@ -51,7 +54,9 @@ public class Entity : MonoBehaviour
 
     public virtual void OnDamage(int damage) {
     // 데미지 입는 기능
+        Debug.Log("데미지 이벤트  체력 : " + health);
         health -= damage;
+        Debug.Log("  > 체력 : " + health);
 
         if (health <= 0 && !isDead)
             Die();
