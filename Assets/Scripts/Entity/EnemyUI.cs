@@ -19,6 +19,8 @@ public class EnemyUI : MonoBehaviour
     private int maxHp;
     private int initHp;
     public Enemy enemy;
+    public Image actionImg;
+    public Sprite[] sprites;
     void Start() {
         uiCan = GetComponentInParent<Canvas>();
         uiCam = uiCan.worldCamera;
@@ -33,6 +35,7 @@ public class EnemyUI : MonoBehaviour
         slider.value = (float)initHp/maxHp*100;
         initHp = enemy.health;
         hpValue.text = initHp.ToString();
+        ActionImageSet();
     }
 
     void LateUpdate() {
@@ -47,5 +50,19 @@ public class EnemyUI : MonoBehaviour
             uiCam, out localPos);
 
         rectHp.localPosition = localPos;
+    }
+
+    private void ActionImageSet() {
+        switch (enemy.Action) {
+            case Active.Enforce:
+            case Active.Special:
+            case Active.Attack:
+                actionImg.sprite = sprites[0];
+                break;
+            case Active.Defence:
+                actionImg.sprite = sprites[1];
+                break;
+        }
+        
     }
 }

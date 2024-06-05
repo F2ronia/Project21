@@ -23,7 +23,7 @@ public class TurnManager : MonoBehaviour
     public bool myTurn;
     public bool isLoading;
     private WaitForSeconds delay = new WaitForSeconds(0.5f);
-
+    public static Action<bool> OnReadyAction;
     public static Action<bool> OnAddCard;
     public static event Action<bool> OnTurnStarted;
     public static event Action<bool> OnTurnEnd;
@@ -62,6 +62,7 @@ public class TurnManager : MonoBehaviour
         }
         isLoading = false;
         OnTurnStarted?.Invoke(myTurn);
+        OnReadyAction.Invoke(myTurn);
     }
 
     public void EndTurn() {
