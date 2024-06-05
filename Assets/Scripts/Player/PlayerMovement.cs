@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (isMove) {
             transform.position += dir.normalized * Time.deltaTime * speed;
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookTarget, 0.25f);
+            transform.DORotate(lookTarget.eulerAngles, 1);
             isMove = (transform.position - destPos).magnitude > 0.05f;
         }
     }
@@ -33,7 +34,6 @@ public class PlayerMovement : MonoBehaviour
             dir = destPos - transform.position;
             lookTarget = Quaternion.LookRotation(dir);
             isMove = true;
-            UIManager.Inst.SelectStage(hit.transform.name);
         }
     }
 }

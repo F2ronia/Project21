@@ -33,6 +33,6 @@ public class CameraMovement : MonoBehaviour
     {
         transform = OriTransform;
         camSet = _setCode;
-        transform.DOMove(_moveVec, 10f);
+        transform.DOMove(_moveVec, 8f);
     }
 }
