@@ -30,6 +30,8 @@ public class EntityManager : MonoBehaviour
     private GameObject TargetPicker;
     [SerializeField]
     private GameObject entityUI;
+    private EntityState entityState;
+    private enum EntityState { Nothing, CanMouseOver, Attack }
     // 타겟
 #endregion
 #region Entity
@@ -38,7 +40,7 @@ public class EntityManager : MonoBehaviour
     private bool ExistEmptyEntity => entities.Exists(x => x == EmptyEntity);
     private int EmptyEntityIndex => entities.FindIndex(x => x == EmptyEntity);
     private bool ExistTargetPickEntity => targetPickEntity != null;
-    private bool CanMouseInput => TurnManager.Instance.myTurn && !TurnManager.Instance.isLoading;
+    private bool IsSelected = false;
 
     public List<Entity> allEntity;
     public Entity targetPickEntity;
@@ -49,14 +51,7 @@ public class EntityManager : MonoBehaviour
     }
 
     void Update() {
-        ShowTargetPicker(ExistTargetPickEntity);
-    }
-
-    private void ShowTargetPicker(bool isShow) {
-        TargetPicker.SetActive(isShow);
-        if (ExistTargetPickEntity) {
-            TargetPicker.transform.position = targetPickEntity.transform.position;
-        }
+        SetEntityState();
     }
 
     private void SetupEnemyList() {
@@ -67,7 +62,7 @@ public class EntityManager : MonoBehaviour
             Status status = entitySOs[i].status;
 
             entityList.Add(status);
-            //Debug.Log("추가 확인 + " + entityList[i].name);
+            Debug.Log("추가 확인 + " + entityList[i].name);
         }
     }
 
@@ -100,11 +95,14 @@ public class EntityManager : MonoBehaviour
     }
 
     private void EntityAlignment() {
+        float leftOrder = -3.4f;
+        float padding = 6.8f;
+        float interval = 2f;
         float targetY = 4.15f;
         var targetEntities = entities;
 
         for (int i=0; i<targetEntities.Count; i++) {
-            float targetX = (targetEntities.Count - 1) * -3.4f + i * 6.8f;
+            float targetX = (targetEntities.Count - 1) * leftOrder + i * padding + i * interval;
 
             var targetEntity = targetEntities[i];
             targetEntity.originPos = new Vector3(targetX, targetY, 0);
@@ -160,19 +158,62 @@ public class EntityManager : MonoBehaviour
 
         return true;
     }
+#region 마우스 상호작용
+    private void ShowTargetPicker(bool isShow, Entity entity) {
+        Vector3 entityPos = entity.gameObject.transform.position;
 
-    public void EntityMouseDrag() {
-        bool existTarget = false;
+        TargetPicker.SetActive(isShow);
+        TargetPicker.transform.position = entityPos;
+    }
+    public void EntityMouseOver(Entity entity) {
+        if (entityState == EntityState.Nothing || entityState == EntityState.Attack)
+            return;
+        
+        ShowTargetPicker(true, entity);
+    }
+    public void EntityMouseExit(Entity entity) {
+        ShowTargetPicker(false, entity);
+    }
+    public void EntityMouseUp() {
+        EntityCheck();
+    }
+    private void EntityCheck() {
+        bool existTarget = false;    
 
         foreach (var hit in Physics2D.RaycastAll(Utils.MousePos, Vector3.forward)) {
             Entity entity = hit.collider?.GetComponent<Entity>();
             if (entity != null && !entity.isDead) {
                 targetPickEntity = entity;
                 existTarget = true;
+                IsSelected = true;
                 break;
             }
         }
-        if (!existTarget)
+        if (!existTarget) 
             targetPickEntity = null;
+    } 
+
+    public void SelectTargetEntity(Card card) {
+        StartCoroutine(DelayUntilSelect(card));
     }
+
+    private IEnumerator DelayUntilSelect(Card card) {
+        entityState = EntityState.CanMouseOver;
+        yield return new WaitUntil(() => IsSelected == true);
+        if (targetPickEntity != null) {
+            card.CallActive(targetPickEntity, card.item.num);
+            entityState = EntityState.Nothing;
+            IsSelected = false;
+        }
+    }
+
+    private void SetEntityState() {
+        if (TurnManager.Instance.isLoading) {
+            entityState = EntityState.Nothing;
+        } else if (!TurnManager.Instance.myTurn) {
+            // 플레이어 턴이 아닐 경우 
+            entityState = EntityState.Attack;
+        }
+    }
+#endregion
 }

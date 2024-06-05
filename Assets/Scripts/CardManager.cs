@@ -39,7 +39,7 @@ public class CardManager : MonoBehaviour {
     private Card selectCard;
     private bool isDraggable;
     private bool onCardArea;
-    private enum ECardState { Nothing, CanMouserOver, CanMouseDrag }
+    private enum ECardState { Nothing, CanMouseOver, CanMouseDrag}
     private enum NormalCard { Attack, Armor, Heal }
 #endregion
 #region UnityEventFunction
@@ -247,7 +247,6 @@ public class CardManager : MonoBehaviour {
             EntityManager.Instance.RemoveEmptyEntity();
         } else {
             TryUseCard(selectCard);
-
         }
     }
     private void CardDrag()
@@ -264,11 +263,7 @@ public class CardManager : MonoBehaviour {
                 card.CallActive(null, card.item.num);
                 break;
             case Item.Target.Enemy:
-                EntityManager.Instance.EntityMouseDrag();
-                var target = EntityManager.Instance.targetPickEntity;
-                if (target != null) {
-                    card.CallActive(target, card.item.num);
-                }
+                EntityManager.Instance.SelectTargetEntity(card);
                 break;
         }
         DestoryCard(card);
@@ -277,8 +272,6 @@ public class CardManager : MonoBehaviour {
         CardAlignment();
         return false;
     }
-
-    
 
     private void DetectCardArea() {
         RaycastHit2D[] hits = Physics2D.RaycastAll(Utils.MousePos, Vector3.forward);
@@ -290,7 +283,7 @@ public class CardManager : MonoBehaviour {
         if (TurnManager.Instance.isLoading) {
             eCardState = ECardState.Nothing;
         } else if (!TurnManager.Instance.myTurn) {
-            eCardState = ECardState.CanMouserOver;
+            eCardState = ECardState.CanMouseOver;
         } else if (TurnManager.Instance.myTurn) {
             eCardState = ECardState.CanMouseDrag;
         }
