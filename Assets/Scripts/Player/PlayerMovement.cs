@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
             transform.DORotate(lookTarget.eulerAngles, 1);
             isMove = (transform.position - destPos).magnitude > 0.05f;
         }
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public void CheckRaycast() {
