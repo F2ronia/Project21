@@ -19,7 +19,9 @@ public class EntityManager : MonoBehaviour
     // 적 프리팹
     [SerializeField]
     private EntitySO[] entitySOs;
+    // 모든 적 정보 
     private List<Status> entityList;
+    // 적 생성 처리용 더미 리스트
     [SerializeField]
     private List<Entity> entities;
     [SerializeField]
@@ -43,6 +45,9 @@ public class EntityManager : MonoBehaviour
     private bool IsSelected = false;
 
     public List<Entity> allEntity;
+    // 현재 스테이지 내 생존 적 리스트
+    public List<EnemyUI> allEntityUi;
+    // 현재 스테이지 내 생존 적 UI
     public Entity targetPickEntity;
     // 적 행동 실행 여부 체크
 #endregion
@@ -57,6 +62,7 @@ public class EntityManager : MonoBehaviour
     private void SetupEnemyList() {
         entityList = new List<Status>();
         allEntity = new List<Entity>();
+        allEntityUi = new List<EnemyUI>();
 
         for (int i=0; i<entitySOs.Length; i++) {
             Status status = entitySOs[i].status;
@@ -154,6 +160,7 @@ public class EntityManager : MonoBehaviour
         entities[EmptyEntityIndex] = enemy;
         enemy.Setup(PopList());
         allEntity.Add(enemy);
+        allEntityUi.Add(slider);
         EntityAlignment();
 
         return true;
@@ -164,6 +171,10 @@ public class EntityManager : MonoBehaviour
 
         TargetPicker.SetActive(isShow);
         TargetPicker.transform.position = entityPos;
+    }
+
+    public void HideTargetPicker() {
+        TargetPicker.SetActive(false);
     }
     public void EntityMouseOver(Entity entity) {
         if (entityState == EntityState.Nothing || entityState == EntityState.Attack)

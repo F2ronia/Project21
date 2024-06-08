@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using DG.Tweening;
 
 public enum Active {
     Attack,     // 공격
@@ -21,10 +22,12 @@ public class Enemy : Entity {
     void Start() {
         TurnManager.OnTurnStarted += OnTurnStarted;
         TurnManager.OnReadyAction += ReadyAction;
+        OnDeath += EnemyDie;
     }
 
     void OnDestroy() {
         TurnManager.OnTurnStarted -= OnTurnStarted;
+        OnDeath -= EnemyDie;
     }
 
     private void OnTurnStarted(bool myTurn) {
@@ -66,6 +69,36 @@ public class Enemy : Entity {
                 Debug.Log("현재 방어도 : " + armor);
                 break;
         }
+    }
+
+    private void EnemyDie() {
+        Debug.Log("죽음 처리 확인");
+        DestoryEnemy();
+    }
+
+    private void DestoryEnemy() {
+    // 죽음 처리 + 애니메이션
+        Sequence sequence = DOTween.Sequence()
+            .Append(transform.DOShakePosition(1.3f))
+            .Append(transform.DOScale(Utils.VZ, 0.3f)).SetEase(Ease.OutCirc)
+            .OnComplete(() =>
+            {
+                for (int i=EntityManager.Instance.allEntity.Count-1; i>=0 ; i--) {
+                // 연결된 UI 객체 찾기
+                    var temp = EntityManager.Instance.allEntityUi[i].enemy;
+                    var tempUI = EntityManager.Instance.allEntityUi[i];
+
+                    if (temp == this) {
+                        Destroy(tempUI.gameObject);
+                        EntityManager.Instance.allEntityUi.Remove(tempUI);
+                    }
+                }
+                Destroy(gameObject);
+                EntityManager.Instance.allEntity.Remove(this);
+
+                EntityManager.Instance.HideTargetPicker();
+                // 타겟 지정된 상태 대비하여 숨김 처리
+            });
     }
 
     private void OnMouseOver() {
