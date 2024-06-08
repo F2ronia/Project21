@@ -65,6 +65,7 @@ public class Entity : MonoBehaviour
             // 방어도와 데미지가 같거나 낮은 경우
                 int applyValue = (damage-armor);
                 health -= applyValue;
+                armor -= damage;
             }
         } else {
         // 방어도가 존재하지 않는 경우
@@ -98,8 +99,9 @@ public class Entity : MonoBehaviour
         if (OnDeath != null)
         {
             OnDeath();
+            Debug.Log("이벤트 진입");
         }
-
+        Debug.Log("트리거 체크");
         isDead = true;
     }
 #endregion
