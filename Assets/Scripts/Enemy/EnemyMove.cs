@@ -1,10 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class EnemyMove : MonoBehaviour
 {
+    private NavMeshAgent nvAgent;
+
     bool isPlayerFind = false;
+
+    private void Start()
+    {
+        nvAgent = GetComponent<NavMeshAgent>();
+    }
 
     private void FixedUpdate()
     {
@@ -33,6 +42,7 @@ public class EnemyMove : MonoBehaviour
                 {
                     isPlayerFind = true;
                     transform.GetChild(1).gameObject.SetActive(true);
+                    nvAgent.destination = hit.transform.position;
                 }
             }
         }
@@ -41,7 +51,6 @@ public class EnemyMove : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(true);
         else
             transform.GetChild(0).gameObject.SetActive(false);
-
     }
 
     void OnDrawGizmos()
@@ -55,8 +64,8 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("전투 진입");
-            // 전투 진입
+            SceneManager.LoadScene("BatttleScene");
+            gameObject.SetActive(false);
         }
     }
 }

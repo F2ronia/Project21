@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (Physics.Raycast(ray, out hit, 100f, 7))
         {
             destPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             dir = destPos - transform.position;
