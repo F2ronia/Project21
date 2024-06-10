@@ -64,7 +64,6 @@ public class CardManager : MonoBehaviour {
 #endregion
 #region Functions
     private void OnTurnStarted(bool myTurn) {
-        // 플레이어 마나회복
         // 카드 뽑기
         if (myTurn) {
             Debug.Log("턴 돌아옴");
@@ -257,19 +256,25 @@ public class CardManager : MonoBehaviour {
     }
 
     public bool TryUseCard(Card card) {
-        switch(card.item.target) {
-            case Item.Target.My:
-            case Item.Target.All:
-                card.CallActive(null, card.item.num);
-                break;
-            case Item.Target.Enemy:
-                EntityManager.Instance.SelectTargetEntity(card);
-                break;
+        if (PlayerStatus.Instance.PlayerMana < card.item.cost) {
+        // 사용하려는 카드의 비용이 현재 마나보다 많은 경우
+            Debug.Log("마나가 부족합니다");
+        } else {
+            switch(card.item.target) {
+                case Item.Target.My:
+                case Item.Target.All:
+                    card.CallActive(null, card.item.num);
+                    break;
+                case Item.Target.Enemy:
+                    EntityManager.Instance.SelectTargetEntity(card);
+                    break;
+            }
+            PlayerStatus.Instance.PlayerMana -= card.item.cost;
+            DestoryCard(card);
+            myCards.Remove(card);
+            SetOriginOrder();
+            CardAlignment();
         }
-        DestoryCard(card);
-        myCards.Remove(card);
-        SetOriginOrder();
-        CardAlignment();
         return false;
     }
 

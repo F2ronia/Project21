@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [System.Serializable]
 public class PRS {
@@ -23,6 +24,9 @@ public class Utils
     public static Quaternion QI => Quaternion.identity;
     public static Vector3 SO => Vector3.one;
     public static WaitForSeconds D1 = new WaitForSeconds(1);
+    public static int MaxMana = 3;
+    public static Color32 ColorOrigin = new Color32(255, 255, 255, 255);
+    public static Color32 ColorDisable = new Color32(100, 100, 100, 255);
 
     public static Vector3 MousePos
     {
