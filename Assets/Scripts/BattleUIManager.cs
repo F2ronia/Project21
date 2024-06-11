@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class BattleUIManager : MonoBehaviour
 {
     private bool isActive;
     public Image[] mp_img;
@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
     public GameObject armor;
 
     void Update() {
-        /*
         for (int i=0; i < 3; i++) {
             if (i+1 <= PlayerStatus.Instance.PlayerMana) { 
                 isActive = true;
@@ -31,7 +30,6 @@ public class UIManager : MonoBehaviour
         } else {
             SetArmorImg(false);
         }
-        */
     }
 
     private void SetMpImg(Image img, bool isActive) {
