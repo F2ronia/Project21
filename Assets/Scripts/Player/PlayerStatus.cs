@@ -27,7 +27,6 @@ public class PlayerStatus : Entity
     }
     private void Start() {
         startHealth = health = 20;
-        Debug.Log("체력 : " + health);
 
         TurnManager.OnTurnStarted += RestoreMana;
     }
@@ -39,7 +38,6 @@ public class PlayerStatus : Entity
     public override void RestoreArmor(int restorePoint)
     {
         base.RestoreArmor(restorePoint);
-        Debug.Log("현재 방어도 : " + armor);
     }
 
     public override void RestoreHealth(int restorePoint)
@@ -47,7 +45,6 @@ public class PlayerStatus : Entity
         base.RestoreHealth(restorePoint);
         if (startHealth < health)
             health = startHealth;
-        Debug.Log("현재 체력 : " + health);
     }
 
     public void RestoreMana(int restorePoint) {
@@ -57,7 +54,12 @@ public class PlayerStatus : Entity
     public void RestoreMana(bool myTurn) {
         if (myTurn) {
             PlayerMana = Utils.MaxMana;
-            Debug.Log("현재 마나 : " + PlayerMana);
         }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("플레이어 사망");
+        base.Die();    
     }
 }

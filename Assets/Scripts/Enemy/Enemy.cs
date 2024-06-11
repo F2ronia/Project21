@@ -64,9 +64,7 @@ public class Enemy : Entity {
                 PlayerStatus.Instance.OnDamage(status.attack);
                 break;
             case Active.Defence:
-                Debug.Log("방어도 획득 : " + status.armor);
                 RestoreArmor(status.armor);
-                Debug.Log("현재 방어도 : " + armor);
                 break;
         }
     }
@@ -98,6 +96,9 @@ public class Enemy : Entity {
 
                 EntityManager.Instance.HideTargetPicker();
                 // 타겟 지정된 상태 대비하여 숨김 처리
+                Debug.Log("적 수 : " + EntityManager.Instance.allEntity.Count);
+                if (EntityManager.Instance.allEntity.Count <= 0)
+                    Debug.Log("적 전체 죽음");
             });
     }
 

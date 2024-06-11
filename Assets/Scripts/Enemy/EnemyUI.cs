@@ -21,6 +21,7 @@ public class EnemyUI : MonoBehaviour
     public Enemy enemy;
     public Image actionImg;
     public Sprite[] sprites;
+    public GameObject armor;
     void Start() {
         uiCan = GetComponentInParent<Canvas>();
         uiCam = uiCan.worldCamera;
@@ -35,6 +36,12 @@ public class EnemyUI : MonoBehaviour
         slider.value = (float)initHp/maxHp*100;
         initHp = enemy.health;
         hpValue.text = initHp.ToString();
+
+        if (enemy.armor > 0) {
+            SetArmorImg(true);
+        } else {
+            SetArmorImg(false);
+        }
         ActionImageSet();
     }
 
@@ -54,15 +61,18 @@ public class EnemyUI : MonoBehaviour
 
     private void ActionImageSet() {
         switch (enemy.Action) {
-            case Active.Enforce:
-            case Active.Special:
-            case Active.Attack:
+            case Active.Special:    // 특수 패턴
+            case Active.Attack: // 일반 공격
                 actionImg.sprite = sprites[0];
                 break;
-            case Active.Defence:
+            case Active.Enforce:    // 강화 패턴
+            case Active.Defence:    // 일반 방어
                 actionImg.sprite = sprites[1];
                 break;
-        }
-        
+        }   
+    }
+    private void SetArmorImg(bool isActive) {
+        armor.SetActive(isActive);
+        armor.GetComponentInChildren<TMP_Text>().text = enemy.armor.ToString();
     }
 }

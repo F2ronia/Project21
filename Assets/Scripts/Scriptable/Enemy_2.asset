@@ -15,6 +15,6 @@ MonoBehaviour:
   status:
     name: "\uC801 2"
     main: {fileID: 21300000, guid: 8f56d994b6d39c84c9869b7f64438f52, type: 3}
-    attack: 2
+    attack: 3
     armor: 2
-    health: 12
+    health: 6

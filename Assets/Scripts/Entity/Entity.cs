@@ -54,8 +54,6 @@ public class Entity : MonoBehaviour
 
     public virtual void OnDamage(int damage) {
     // 데미지 입는 기능
-        Debug.Log("데미지 이벤트  방어도 : " + armor);
-        Debug.Log("데미지 이벤트  체력 : " + health);
         if (armor > 0) {
         // 방어도가 존재하는 경우
             if (armor > damage) {
@@ -63,7 +61,7 @@ public class Entity : MonoBehaviour
                 armor -= damage;
             } else {
             // 방어도와 데미지가 같거나 낮은 경우
-                int applyValue = (damage-armor);
+                int applyValue = damage-armor;
                 health -= applyValue;
                 armor -= damage;
             }
@@ -71,8 +69,6 @@ public class Entity : MonoBehaviour
         // 방어도가 존재하지 않는 경우
             health -= damage;
         }
-        Debug.Log("  > 방어도 : " + armor);
-        Debug.Log("  > 체력 : " + health);
 
         if (health <= 0 && !isDead)
             Die();
