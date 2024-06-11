@@ -85,7 +85,12 @@ public class CardManager : MonoBehaviour {
 
     private void SetupListBuffer() {
     // 전체 카드 데이터 불러오기
-        allCardList = new List<Item>();
+        if (allCardList == null)
+            allCardList = new List<Item>();
+        if (myCardList == null)
+            myCardList = new List<Item>();
+        if (myCards == null)
+            myCards = new List<Card>();
 
         for (int i=0; i<itemSO.Length; i++) {
             Item item = itemSO[i].item;        
@@ -114,7 +119,6 @@ public class CardManager : MonoBehaviour {
                         myCardList.Add(item);
                     break;
             }
-            //Debug.Log("카드 추가 : " + item);
         }
 
         SetupMyCardList();
@@ -242,9 +246,7 @@ public class CardManager : MonoBehaviour {
         if (eCardState != ECardState.CanMouseDrag)
             return;
 
-        if (onCardArea) {
-            EntityManager.Instance.RemoveEmptyEntity();
-        } else {
+        if (!onCardArea) {
             TryUseCard(selectCard);
         }
     }

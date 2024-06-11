@@ -6,15 +6,7 @@ public class PlayerStatus : Entity
 {
 #region Singleton
     public static PlayerStatus Instance {get; private set;}
-    void Awake() {
-        if (Instance != this && Instance != null) {
-            Destroy(gameObject);
-            return;
-        } else {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
+    void Awake() => Instance = this;
 #endregion
     private int playerMana;
 

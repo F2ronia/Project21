@@ -5,7 +5,6 @@ using UnityEngine;
 public class ObjectPooling : MonoBehaviour
 {
 #region Singleton
-    
     public static ObjectPooling Instance { get; private set; }
     void Awake() {
         if (Instance != this && Instance != null) {
@@ -14,8 +13,6 @@ public class ObjectPooling : MonoBehaviour
         } else {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            Initialize(8);
         }
     }
 #endregion
@@ -24,6 +21,10 @@ public class ObjectPooling : MonoBehaviour
     [SerializeField]
     private Transform cardSpawnPoint;
     private Queue<Card> poolingObjectQueue = new Queue<Card>();
+
+    void Start() {
+        Initialize(8);
+    }
 
     private Card CreateNewObejct() {
         var cardObject = Instantiate(poolingObject, cardSpawnPoint.position, Utils.QI);

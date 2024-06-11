@@ -27,6 +27,7 @@ public class Enemy : Entity {
 
     void OnDestroy() {
         TurnManager.OnTurnStarted -= OnTurnStarted;
+        TurnManager.OnReadyAction -= ReadyAction;
         OnDeath -= EnemyDie;
     }
 

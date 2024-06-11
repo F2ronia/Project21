@@ -20,10 +20,6 @@ public class EntityManager : MonoBehaviour
     [SerializeField]
     private EntitySO[] entitySOs;
     // 모든 적 정보 
-    private List<Status> entityList;
-    // 적 생성 처리용 더미 리스트
-    [SerializeField]
-    private List<Entity> entities;
     [SerializeField]
     private Entity EmptyEntity;
     [SerializeField]
@@ -38,12 +34,8 @@ public class EntityManager : MonoBehaviour
 #endregion
 #region Entity
     private const int MAX_ENTITY_COUNT = 3;
-    public bool IsFullEntities => entities.Count >= MAX_ENTITY_COUNT && !ExistEmptyEntity;
-    private bool ExistEmptyEntity => entities.Exists(x => x == EmptyEntity);
-    private int EmptyEntityIndex => entities.FindIndex(x => x == EmptyEntity);
-    private bool ExistTargetPickEntity => targetPickEntity != null;
+    public bool IsFullEntities => allEntity.Count >= MAX_ENTITY_COUNT;
     private bool IsSelected = false;
-
     public List<Entity> allEntity;
     // 현재 스테이지 내 생존 적 리스트
     public List<EnemyUI> allEntityUi;
@@ -51,25 +43,8 @@ public class EntityManager : MonoBehaviour
     public Entity targetPickEntity;
     // 적 행동 실행 여부 체크
 #endregion
-    void Start() {
-        SetupEnemyList();
-    }
-
     void Update() {
         SetEntityState();
-    }
-
-    private void SetupEnemyList() {
-        entityList = new List<Status>();
-        allEntity = new List<Entity>();
-        allEntityUi = new List<EnemyUI>();
-
-        for (int i=0; i<entitySOs.Length; i++) {
-            Status status = entitySOs[i].status;
-
-            entityList.Add(status);
-            Debug.Log("추가 확인 + " + entityList[i].name);
-        }
     }
 
     public bool EnemyTurnEnd() {
@@ -94,18 +69,12 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    private Status PopList() {
-        Status temp = entityList[0];
-        entityList.RemoveAt(0);
-        return temp;
-    }
-
     private void EntityAlignment() {
         float leftOrder = -3.4f;
         float padding = 6.8f;
         float interval = 2f;
         float targetY = 4.15f;
-        var targetEntities = entities;
+        var targetEntities = allEntity;
 
         for (int i=0; i<targetEntities.Count; i++) {
             float targetX = (targetEntities.Count - 1) * leftOrder + i * padding + i * interval;
@@ -117,34 +86,10 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public void InsertEmptyEntity(float xPos) {
-        if (IsFullEntities)
-            return;
-        
-        if (!ExistEmptyEntity)
-            entities.Add(EmptyEntity);
-
-        Vector3 emptyEntityPos = EmptyEntity.transform.position;
-        emptyEntityPos.x = xPos;
-        EmptyEntity.transform.position = emptyEntityPos;
-
-        int _emptyEntityIndex = EmptyEntityIndex;
-        entities.Sort((entity1, entity2) => entity1.transform.position.x.CompareTo(entity2.transform.position.x));
-        if (EmptyEntityIndex != _emptyEntityIndex)
-            EntityAlignment();
-    }
-
-    public void RemoveEmptyEntity() {
-        if (!ExistEmptyEntity)
-            return;
-
-        entities.RemoveAt(EmptyEntityIndex);
-        EntityAlignment();
-    }
-
-    public bool SpawnEntity() {
-        if (IsFullEntities || !ExistEmptyEntity || entityList.Count == 0)
+    public bool SpawnEntity(Status status) {
+        if (IsFullEntities) {
             return false;
+        }
 
         var enemyObj = Instantiate(entityPrefab, entitySpawnPoint.position, Utils.QI);
         var enemy = enemyObj.GetComponent<Enemy>();
@@ -157,8 +102,7 @@ public class EntityManager : MonoBehaviour
         slider.offset = new Vector3(0, -8f, 0);
         slider.enemy = enemy;
 
-        entities[EmptyEntityIndex] = enemy;
-        enemy.Setup(PopList());
+        enemy.Setup(status);
         allEntity.Add(enemy);
         allEntityUi.Add(slider);
         EntityAlignment();

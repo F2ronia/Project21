@@ -64,8 +64,9 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            SceneManager.LoadScene("BatttleScene");
+            SceneManager.LoadScene("temp_battle");
             gameObject.SetActive(false);
+            GameManager.Instance.LoadTriggerEnemy();
         }
     }
 }
