@@ -40,7 +40,7 @@ public class MenuUI : MonoBehaviour
         menuUI.SetActive(false);
         storyImage[0].SetActive(true);
         mainCamera.GetComponent<CameraMovement>().CutSceneSet(1, new Vector3(1.5f, -2f, -21f));
-        storyText.DOText("스토리 텍스트1번 입력", 3f);
+        storyText.DOText("test 1", 3f);
 
         StartCoroutine(StartFadeIn(_fadeTime));
 
@@ -53,7 +53,7 @@ public class MenuUI : MonoBehaviour
         storyImage[0].SetActive(false);
         storyImage[1].SetActive(true);
         mainCamera.GetComponent<CameraMovement>().CutSceneSet(2, new Vector3(0, 2.5f, -21f));
-        storyText.DOText("스토리 텍스트2번 입력", 3f);
+        storyText.DOText("text 2", 3f);
 
         StartCoroutine(StartFadeIn(_fadeTime));
 
@@ -63,7 +63,8 @@ public class MenuUI : MonoBehaviour
         StartCoroutine(StartFadeOut(_fadeTime * 0.5f));
         yield return new WaitForSeconds(_fadeTime * 3f);
 
-        SceneManager.LoadScene("MainStage");
+        //SceneManager.LoadScene("MainStage");
+        SceneManager.LoadScene("temp_stage");
     }
 
     IEnumerator StartFadeOut(float _fadeTime)

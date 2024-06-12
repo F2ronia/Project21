@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
-using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
-using Unity.VisualScripting.Dependencies.NCalc;
 
 public class Card : MonoBehaviour {
     [SerializeField]

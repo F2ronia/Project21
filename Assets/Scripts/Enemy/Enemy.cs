@@ -98,8 +98,10 @@ public class Enemy : Entity {
                 EntityManager.Instance.HideTargetPicker();
                 // 타겟 지정된 상태 대비하여 숨김 처리
                 Debug.Log("적 수 : " + EntityManager.Instance.allEntity.Count);
-                if (EntityManager.Instance.allEntity.Count <= 0)
+                if (EntityManager.Instance.allEntity.Count <= 0) {
                     Debug.Log("적 전체 죽음");
+                    GameManager.Instance.CallAnyScene("temp_main");
+                }
             });
     }
 
