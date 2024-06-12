@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: 
   startHealth: 0
+  main: {fileID: 4002808989525155972}
   status:
     name: 
     main: {fileID: 0}

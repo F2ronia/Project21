@@ -176,7 +176,7 @@ public class CardManager : MonoBehaviour {
         int count = myCards.Count;
 
         List<PRS> originCardPRS = new List<PRS>();
-        originCardPRS = RoundAlignment(myCardLeft, myCardRight, count, 0.5f, Vector3.one * 1.9f);
+        originCardPRS = RoundAlignment(Utils.MyCardLeft, Utils.MyCardRight, count, 0.5f, Vector3.one * 1.9f);
 
         for (int i=0; i<count; i++) {
             var target = myCards[i];

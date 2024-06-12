@@ -38,9 +38,9 @@ public class Enemy : Entity {
 
     private IEnumerator EnemyAI() {
         Debug.Log("적 행동");
+        yield return Utils.D05;
         EnemyAction();
         isActived = true;
-        yield return Utils.D1;
         if (EntityManager.Instance.EnemyTurnEnd()) {
             EntityManager.Instance.ResetEnemyIsActive();
             TurnManager.Instance.EndTurn();

@@ -24,6 +24,7 @@ public class Entity : MonoBehaviour
     public bool isActived { get; set; }
     // 행동 여부 체크
 #endregion
+    public SpriteRenderer main;
     public Status status;
     public Vector3 originPos;
     public event Action OnDeath;
@@ -32,6 +33,7 @@ public class Entity : MonoBehaviour
     public void Setup(Status _status) {
         this.status = _status;
 
+        main.sprite = _status.main;
         _name = _status.name;
         startHealth = health = _status.health;
         attack = _status.attack;

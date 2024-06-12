@@ -93,4 +93,8 @@ public class GameManager : MonoBehaviour
 
         entityList = null;
     }
+
+    public void CallAnyScene (string scene) {
+        SceneManager.LoadScene(scene);
+    }
 }

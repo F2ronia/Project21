@@ -12,6 +12,7 @@ public class Item {
     public int value;     // 능력 수치
     public Sprite main;         // 메인 이미지
     public Sprite background;   // 배경 이미지
+    public Sprite upper;        // 상단 이미지
     public string text;         // 능력 설명
     public enum Type { Normal, Warrior }
     public Type type;           // 카드 속성

@@ -52,6 +52,7 @@ public class PlayerStatus : Entity
     public override void Die()
     {
         Debug.Log("플레이어 사망");
-        base.Die();    
+        GameManager.Instance.CallAnyScene("temp_main");
+        //base.Die();    
     }
 }

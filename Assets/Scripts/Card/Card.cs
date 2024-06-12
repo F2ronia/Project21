@@ -21,6 +21,8 @@ public class Card : MonoBehaviour {
     private SpriteRenderer main;        // 메인 이미지
     [SerializeField]
     private SpriteRenderer background;  // 배경 이미지
+    [SerializeField]
+    private SpriteRenderer upper;       // 상단 이미지
 
     public Item item;
     public PRS originPRS;
@@ -33,6 +35,7 @@ public class Card : MonoBehaviour {
         costTMP.text = this.item.cost.ToString();
         main.sprite = this.item.main;
         background.sprite = this.item.background;
+        upper.sprite = this.item.upper;
     }
 
     public void MoveTransform(PRS prs, bool useDotween, float dotweenTime = 0) {
