@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerStatus : Entity
@@ -9,6 +10,8 @@ public class PlayerStatus : Entity
     void Awake() => Instance = this;
 #endregion
     private int playerMana;
+    private bool isDanger = false;
+    private AudioSource audioSource;
 
     public int PlayerMana {
         get {
@@ -19,12 +22,28 @@ public class PlayerStatus : Entity
     }
     private void Start() {
         startHealth = health = 20;
-
+        audioSource = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += RestoreMana;
+    }
+    private void Update() {
+        if (health > 10)
+            isDanger = false;
+        else
+            isDanger = true;
+
+        GameManager.Instance.ChangeBattleBGM(isDanger);
     }
 
     private void OnDestroy() {
         TurnManager.OnTurnStarted -= RestoreMana;
+    }
+
+    public override void OnDamage(int damage)
+    {
+        base.OnDamage(damage);
+
+        audioSource.Stop();
+        audioSource.PlayOneShot(audioSource.clip);         
     }
 
     public override void RestoreArmor(int restorePoint)

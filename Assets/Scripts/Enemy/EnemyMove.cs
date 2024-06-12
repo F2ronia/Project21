@@ -64,12 +64,13 @@ public class EnemyMove : MonoBehaviour
         Gizmos.DrawWireCube(Vector3.zero + (Vector3.forward * 4), boxSize * 2);
     }
 
-     void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             spawnManager.EnemyOff(stageNum);
             GameManager.Instance.LoadTriggerEnemy();
+            GameManager.Instance.CallAnyScene("temp_battle");
         }
     }
 

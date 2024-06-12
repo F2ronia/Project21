@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using DG.Tweening;
+using System.Runtime.CompilerServices;
 
 public enum Active {
     Attack,     // 공격
@@ -38,8 +39,8 @@ public class Enemy : Entity {
 
     private IEnumerator EnemyAI() {
         Debug.Log("적 행동");
-        yield return Utils.D05;
         EnemyAction();
+        yield return Utils.D1;
         isActived = true;
         if (EntityManager.Instance.EnemyTurnEnd()) {
             EntityManager.Instance.ResetEnemyIsActive();
@@ -59,15 +60,25 @@ public class Enemy : Entity {
     private void EnemyAction() {
         switch (active) {
         // 특수 패턴은 나중에 추가
-            case Active.Enforce:
             case Active.Special:
             case Active.Attack:
-                PlayerStatus.Instance.OnDamage(status.attack);
+                EnemyAttack();
                 break;
+            case Active.Enforce:
             case Active.Defence:
                 RestoreArmor(status.armor);
                 break;
         }
+    }
+
+    private void EnemyAttack() {
+        Sequence sequence = DOTween.Sequence()
+            .Append(transform.DOShakePosition(1.3f))
+            .AppendCallback(() => 
+            {
+                // 데미지 처리
+                PlayerStatus.Instance.OnDamage(status.attack);
+            });
     }
 
     private void EnemyDie() {

@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum BGM {
+    Main,
+    Stage,
+    Battle_Normal,
+    Battle_Danger,
+    Battle_Elite
+}
+
 public class GameManager : MonoBehaviour
 {
 #region Singleton
@@ -25,8 +33,14 @@ public class GameManager : MonoBehaviour
     // 모든 적 정보 
     private List<Status> entityList;
     // 적 생성용 리스트
+    [SerializeField]
+    private AudioClip[] audioClips; 
+    private AudioSource audioSource;
 
     private void Start() {
+        LoadTriggerEnemy();
+        CallBattle();
+        audioSource = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += LoadSceneEvent;
     }
 
@@ -37,9 +51,18 @@ public class GameManager : MonoBehaviour
     }
 
     private void LoadSceneEvent(Scene scene, LoadSceneMode mode) {
+        if (scene.name == "temp_main") {
+            audioSource.clip = audioClips[(int)BGM.Main];
+        }
+        if (scene.name == "temp_stage") {
+            audioSource.clip = audioClips[(int)BGM.Stage];
+        }
         if (scene.name == "temp_battle") {
+            audioSource.clip = audioClips[(int)BGM.Battle_Normal];
             CallBattle();
         }
+        audioSource.Stop();
+        audioSource.Play();
     }
 
     private void InputCheatKey() {
@@ -96,5 +119,18 @@ public class GameManager : MonoBehaviour
 
     public void CallAnyScene (string scene) {
         SceneManager.LoadScene(scene);
+    }
+
+    public void ChangeBattleBGM(bool isDanger) {
+    // 전투 중 일정 체력 이하 시 BGM 변경
+        var temp = isDanger ? audioClips[(int)BGM.Battle_Danger] : audioClips[(int)BGM.Battle_Normal];
+
+        if (temp == audioSource.clip) {
+            return;
+        } else { 
+            audioSource.clip = temp;
+            audioSource.Stop();
+            audioSource.Play();
+        }
     }
 }
