@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class EnemyMove : MonoBehaviour
 {
+    public SpawnManager spawnManager;
     private NavMeshAgent nvAgent;
+
+    public int stageNum;
 
     bool isPlayerFind = false;
 
@@ -35,10 +39,10 @@ public class EnemyMove : MonoBehaviour
             {
                 isPlayerIn = true;
                 RaycastHit hit;
-                Physics.Raycast(transform.position, collider.transform.position - transform.position, out hit);
+                bool currentIsHit = Physics.Raycast(transform.position, collider.transform.position - transform.position, out hit);
                 Debug.DrawRay(transform.position, collider.transform.position - transform.position);
 
-                if (hit.collider.tag == "Player")
+                if (currentIsHit && hit.collider.tag == "Player")
                 {
                     isPlayerFind = true;
                     transform.GetChild(1).gameObject.SetActive(true);
@@ -60,12 +64,17 @@ public class EnemyMove : MonoBehaviour
         Gizmos.DrawWireCube(Vector3.zero + (Vector3.forward * 4), boxSize * 2);
     }
 
-    void OnTriggerEnter(Collider other)
+     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
             SceneManager.LoadScene("BatttleScene");
-            gameObject.SetActive(false);
+            spawnManager.EnemyOff(stageNum);
         }
+    }
+
+    public void SetUp(int _num)
+    {
+        stageNum = _num;
     }
 }
