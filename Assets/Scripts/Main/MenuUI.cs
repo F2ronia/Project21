@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public class MenuUI : MonoBehaviour
 {
@@ -15,12 +14,14 @@ public class MenuUI : MonoBehaviour
     public GameObject[] storyImage;
     
     Image fade;
+    Image skipFade;
     Text storyText;
 
 
     void Start()
     {
         fade = introUI.transform.GetChild(2).GetComponent<Image>();
+        skipFade = introUI.transform.GetChild(5).GetComponent<Image>();
         storyText = introUI.transform.GetChild(3).GetComponent<Text>();
     }
 
@@ -28,6 +29,17 @@ public class MenuUI : MonoBehaviour
     {
         introUI.SetActive(true);
         StartCoroutine(StartIntro(1f));
+    }
+    public void SkipIntro()
+    {
+        StartCoroutine(SkipIntroCoroutine());
+    }
+    IEnumerator SkipIntroCoroutine()
+    {
+        skipFade.gameObject.SetActive(true);
+        skipFade.DOFade(1, 0.5f);
+        yield return new WaitForSeconds(0.6f);
+        GameManager.Instance.CallAnyScene("temp_stage");
     }
 
     IEnumerator StartIntro(float _fadeTime)
@@ -63,8 +75,7 @@ public class MenuUI : MonoBehaviour
         StartCoroutine(StartFadeOut(_fadeTime * 0.5f));
         yield return new WaitForSeconds(_fadeTime * 3f);
 
-        // SceneManager.LoadScene("MainStage");
-        SceneManager.LoadScene("temp_stage");
+        GameManager.Instance.CallAnyScene("temp_stage");
     }
 
     IEnumerator StartFadeOut(float _fadeTime)
