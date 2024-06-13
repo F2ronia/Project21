@@ -342,6 +342,7 @@ public class CardManager : MonoBehaviour {
             SelectUI.Instance.AddSelect(selectList[i]);
             //추후 중복 방지 알고리즘 추가
         }
+        selectList = null;
         // 3개 중 1장 선택
         // SelectedObject -> ReturnSelected()
         // 선택한 카드 덱에 추가

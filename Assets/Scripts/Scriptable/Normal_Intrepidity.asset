@@ -20,7 +20,7 @@ MonoBehaviour:
     main: {fileID: 21300000, guid: a2912c3613f58884b96d103e5738c48c, type: 3}
     background: {fileID: 21300000, guid: fedd6c24ea42059489331f4466f1c79f, type: 3}
     upper: {fileID: 21300000, guid: c3c8ca34934e5634eae243d372d88775, type: 3}
-    text: "\uD53C\uD574 (5) / \uB9C8\uB098\uD68C\uBCF5 (1)"
+    text: "\uD53C\uD574 (5)\n\uB9C8\uB098\uD68C\uBCF5 (1)"
     type: 0
     target: 1
     restoreType: 2
