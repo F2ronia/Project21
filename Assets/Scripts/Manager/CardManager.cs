@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class CardManager : MonoBehaviour {
 #region Singleton
@@ -36,9 +34,12 @@ public class CardManager : MonoBehaviour {
     // 카드 덱
     private List<Card> myCards;
     // 현재 플레이어가 소지한 카드
+    private List<Item> selectList;
+    // 카드 추가 이벤트용 리스트
     private Card selectCard;
     private bool isDraggable;
     private bool onCardArea;
+    private const int NORMAL_CARD = 3;
     private enum ECardState { Nothing, CanMouseOver, CanMouseDrag}
     private enum NormalCard { Attack, Armor, Heal }
 #endregion
@@ -306,6 +307,56 @@ public class CardManager : MonoBehaviour {
         }
 
         card.GetComponent<Order>().SetMostFrontOrder(isEnLarge);
+    }
+
+    // 전투 승리 시 이벤트
+    public IEnumerator BattleReward() {
+        AddCardEvent();
+        yield return Utils.D1;
+    }
+
+    public void AddCardEvent() {
+    // 카드 추가 
+        var temp  = GameObject.Find("BattleUI");
+        temp.SetActive(false);
+        int random;
+
+        if (selectList == null)
+            selectList = new List<Item>();
+        // 특수 카드 리스트 중 3개 생성
+        for (int i=0; i<3; i++) {
+            random = UnityEngine.Random.Range(NORMAL_CARD, allCardList.Count);
+            selectList.Add(allCardList[random]);
+            SelectUI.Instance.AddSelect(selectList[i]);
+            //추후 중복 방지 알고리즘 추가
+        }
+        // 3개 중 1장 선택
+        // SelectedObject -> ReturnSelected()
+        // 선택한 카드 덱에 추가
+        // GetSelectCard()
+    }
+
+    public void GetSelectCard(Item item) {
+        myCardList.Add(item);
+        SelectUI.Instance.RemoveAll();
+
+        RemoveCardEvent();
+    }
+
+    private void RemoveCardEvent() {
+    // 카드 제거
+        // 현재 보유한 카드 리스트 보여줌
+        SelectUI.Instance.ShowList(myCardList);
+        // 특정 카드 선택
+        // SelectedObject -> RemoveSelected()
+        // 선택한 카드 덱에서 제거
+        // GetRemoveSelect()
+    }
+
+    public void GetRemoveSelect(Item item) {
+        myCardList.Remove(item);
+        SelectUI.Instance.RemoveAll();
+        GameManager.Instance.CallAnyScene("temp_stage");
     }
     #endregion
 #endregion

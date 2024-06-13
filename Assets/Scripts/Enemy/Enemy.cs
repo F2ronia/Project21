@@ -76,6 +76,7 @@ public class Enemy : Entity {
             .Append(transform.DOShakePosition(1.3f))
             .AppendCallback(() => 
             {
+                // 효과 처리
                 // 데미지 처리
                 PlayerStatus.Instance.OnDamage(status.attack);
             });
@@ -110,8 +111,7 @@ public class Enemy : Entity {
                 // 타겟 지정된 상태 대비하여 숨김 처리
                 Debug.Log("적 수 : " + EntityManager.Instance.allEntity.Count);
                 if (EntityManager.Instance.allEntity.Count <= 0) {
-                    Debug.Log("적 전체 죽음");
-                    GameManager.Instance.CallAnyScene("temp_main");
+                    StartCoroutine(CardManager.Instance.BattleReward());
                 }
             });
     }

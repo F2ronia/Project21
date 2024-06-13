@@ -57,7 +57,7 @@ public class Card : MonoBehaviour {
             PlayerStatus.Instance.RestoreArmor(restore);
         else if (type == Item.RestoreType.Health)
             PlayerStatus.Instance.RestoreHealth(restore);
-        else if (type == Item.RestoreType.Mana)
+        else if (type == Item. RestoreType.Mana)
             PlayerStatus.Instance.RestoreMana(restore);
     }
     private void ActiveCard(int damage) {

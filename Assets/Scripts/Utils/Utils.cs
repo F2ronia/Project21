@@ -27,6 +27,8 @@ public class Utils
     public static int MaxMana = 3;
     public static Color32 ColorOrigin = new Color32(255, 255, 255, 255);
     public static Color32 ColorDisable = new Color32(100, 100, 100, 255);
+    public static Vector2 SelectLayout = new Vector2(500, 500);
+    public static Vector2 ListLayout = new Vector2(200, 200);
 
     public static Vector3 MousePos
     {

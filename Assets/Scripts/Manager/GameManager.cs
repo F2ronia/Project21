@@ -38,8 +38,9 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
     private void Start() {
-        LoadTriggerEnemy();
-        CallBattle();
+        //LoadTriggerEnemy();
+        //CallBattle();
+
         audioSource = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += LoadSceneEvent;
     }
@@ -70,7 +71,7 @@ public class GameManager : MonoBehaviour
             TurnManager.OnAddCard?.Invoke(true);
         }
         if (Input.GetKeyDown(KeyCode.A)) {
-            TurnManager.Instance.EndTurn();
+            CardManager.Instance.AddCardEvent();
         }
     }
 
