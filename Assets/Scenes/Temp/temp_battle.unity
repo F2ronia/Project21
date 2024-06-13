@@ -1560,6 +1560,7 @@ GameObject:
   - component: {fileID: 333498994}
   - component: {fileID: 333498993}
   - component: {fileID: 333498992}
+  - component: {fileID: 333498995}
   m_Layer: 5
   m_Name: btn
   m_TagString: Untagged
@@ -1643,6 +1644,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 333498995}
+        m_TargetAssemblyTypeName: EndTurnButton, Assembly-CSharp
+        m_MethodName: Setup
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &333498993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1681,6 +1694,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 333498990}
   m_CullTransparentMesh: 1
+--- !u!114 &333498995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333498990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f707054fd723194cb14bb21b2bd7c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 333498993}
 --- !u!1 &340117684
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,15 +3029,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637892908}
-  m_LocalRotation: {x: 0, y: 0.9885993, z: -0.15057068, w: 0}
-  m_LocalPosition: {x: 114, y: 3, z: 125}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.0334144, y: -0.76531535, z: 0.028038008, w: -0.6421758}
+  m_LocalPosition: {x: 10, y: 10, z: 400}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 1614656655}
   - {fileID: 1341538299}
   m_Father: {fileID: 0}
   m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 17.32, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -260, z: -5}
 --- !u!1001 &641677628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5096,8 +5122,8 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.9622642, g: 0.8578355, b: 0.60519755, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.4039216, g: 0.41176474, b: 0.4039216, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

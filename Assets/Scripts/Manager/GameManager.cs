@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
         }
     }
 #endregion
+    [Header("Develop")]
+    [Tooltip("모드 설정")]
+    [SerializeField]
+    private bool EditMode;
     [SerializeField]
     NoticePannel noticePannel;
     [SerializeField]
@@ -38,8 +42,10 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
 
     private void Start() {
-        //LoadTriggerEnemy();
-        //CallBattle();
+        if (EditMode) {
+        LoadTriggerEnemy();
+        CallBattle();
+        }
 
         audioSource = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += LoadSceneEvent;

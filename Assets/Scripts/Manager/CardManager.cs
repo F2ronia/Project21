@@ -77,7 +77,6 @@ public class CardManager : MonoBehaviour {
     private void OnTurnEnd(bool myTurn) {
         if (myTurn) {
             for (int i=myCards.Count-1; i>=0; i--) {
-                //Destroy(myCards[i].gameObject, .5f);
                 DestoryCard(myCards[i]);
                 myCards.RemoveAt(i);
             }
@@ -317,8 +316,13 @@ public class CardManager : MonoBehaviour {
 
     // 전투 승리 시 이벤트
     public IEnumerator BattleReward() {
+        RemoveAllMyCards();
         AddCardEvent();
         yield return Utils.D1;
+    }
+
+    public void RemoveAllMyCards() {
+        ObjectPooling.ReturnAllObject(myCards);
     }
 
     public void AddCardEvent() {

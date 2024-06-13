@@ -71,6 +71,7 @@ public class PlayerStatus : Entity
     public override void Die()
     {
         Debug.Log("플레이어 사망");
+        CardManager.Instance.RemoveAllMyCards();
         GameManager.Instance.CallAnyScene("temp_main");
         //base.Die();    
     }

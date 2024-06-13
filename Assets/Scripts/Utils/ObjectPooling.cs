@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,5 +61,11 @@ public class ObjectPooling : MonoBehaviour
         card.transform.rotation = Utils.QI;
         card.transform.localScale = Utils.SO;
         Instance.poolingObjectQueue.Enqueue(card);
+    }
+
+    public static void ReturnAllObject(List<Card> cards) {
+        for (int i=cards.Count-1; i>=0; i--) {
+            ReturnObject(cards[i]);
+        }
     }
 }

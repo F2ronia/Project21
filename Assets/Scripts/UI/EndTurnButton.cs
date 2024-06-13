@@ -7,17 +7,12 @@ using TMPro;
 public class EndTurnButton : MonoBehaviour
 {
     [SerializeField]
-    private Sprite active;
-    [SerializeField]
-    private Sprite inactive;
-    [SerializeField]
-    private TMP_Text btnText;
-
-    [SerializeField]
     private Image image;
+    private Button button;
 
     void Start() {
-        Setup(true);
+        Setup(false);
+        button = GetComponent<Button>();
         TurnManager.OnTurnStarted += Setup;
     }
 
@@ -26,6 +21,7 @@ public class EndTurnButton : MonoBehaviour
     }
 
     public void Setup(bool isActive) {
+        GetComponent<Button>().interactable = isActive;
         image.color =  isActive ? new Color32(255,255,255,255) : new Color32(255,255,255, 100);
     }
 }
