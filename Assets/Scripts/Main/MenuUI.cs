@@ -63,7 +63,7 @@ public class MenuUI : MonoBehaviour
         StartCoroutine(StartFadeOut(_fadeTime * 0.5f));
         yield return new WaitForSeconds(_fadeTime * 3f);
 
-        //SceneManager.LoadScene("MainStage");
+        // SceneManager.LoadScene("MainStage");
         SceneManager.LoadScene("temp_stage");
     }
 
