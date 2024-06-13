@@ -9,12 +9,10 @@ public class Card : MonoBehaviour {
 #region Variables
     [SerializeField]
     private TMP_Text nameTMP;           // 이름
-    //[SerializeField]
-    //private TMP_Text textTMP;           // 설명
     [SerializeField]
-    private TMP_Text costTMP;           // 코스트
-    //[SerializeField]
-    //private TMP_Text valueTMP;          // 수치   
+    private TMP_Text textTMP;           // 설명
+    [SerializeField]
+    private TMP_Text costTMP;           // 코스트  
     [SerializeField]
     private SpriteRenderer main;        // 메인 이미지
     [SerializeField]
@@ -34,7 +32,7 @@ public class Card : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
 
         nameTMP.text = this.item.name;
-        //textTMP.text = this.item.text;   
+        textTMP.text = this.item.text;   
         costTMP.text = this.item.cost.ToString();
         main.sprite = this.item.main;
         background.sprite = this.item.background;
@@ -139,7 +137,7 @@ public class Card : MonoBehaviour {
             // 초월
             // 광역 4 데미지, 입힌 피해의 절반 회복
                 ActiveCard(item.value);
-                int value = EntityManager.Instance.allEntity.Count-1 * 2;
+                int value = EntityManager.Instance.allEntity.Count * 2;
                 ActiveCard(item.restoreType, value);
                 break;
         }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 public class Entity : MonoBehaviour
 {
@@ -29,6 +28,9 @@ public class Entity : MonoBehaviour
     public Vector3 originPos;
     public event Action OnDeath;
     // 사망 이벤트
+#region Sound/Effect
+    private AudioSource audioSource;
+#endregion
 #region SetupFunctino
     public void Setup(Status _status) {
         this.status = _status;
@@ -38,6 +40,7 @@ public class Entity : MonoBehaviour
         startHealth = health = _status.health;
         attack = _status.attack;
         armor = _status.armor;
+
     }
     public void MoveTransform(Vector3 pos, bool useDotween, float dotweenTime = 0) {
         if (useDotween) {
@@ -48,6 +51,10 @@ public class Entity : MonoBehaviour
     }
 #endregion
 #region BattleFunction
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     protected virtual void OnEnable() {
     // 생성 시 리셋
         isDead = false;
@@ -56,24 +63,33 @@ public class Entity : MonoBehaviour
 
     public virtual void OnDamage(int damage) {
     // 데미지 입는 기능
-        if (armor > 0) {
-        // 방어도가 존재하는 경우
-            if (armor > damage) {
-            // 방어도가 데미지보다 높은 경우
-                armor -= damage;
-            } else {
-            // 방어도와 데미지가 같거나 낮은 경우
-                int applyValue = damage-armor;
-                health -= applyValue;
-                armor -= damage;
-            }
-        } else {
-        // 방어도가 존재하지 않는 경우
-            health -= damage;
-        }
+        Sequence sequence = DOTween.Sequence()
+            .Append(transform.DOShakePosition(1.3f))
+            .AppendCallback(() =>
+            {
+                // 효과 처리
+                //audioSource.Stop();
+                //audioSource.Play();
+                // 데미지 연산
+                if (armor > 0) {
+                // 방어도가 존재하는 경우
+                    if (armor > damage) {
+                    // 방어도가 데미지보다 높은 경우
+                        armor -= damage;
+                    } else {
+                    // 방어도와 데미지가 같거나 낮은 경우
+                        int applyValue = damage-armor;
+                        health -= applyValue;
+                        armor -= damage;
+                    }
+                } else {
+                // 방어도가 존재하지 않는 경우
+                    health -= damage;
+                }
 
-        if (health <= 0 && !isDead)
-            Die();
+                if (health <= 0 && !isDead)
+                    Die();
+            });
     }
 
     public virtual void RestoreHealth(int restorePoint) {

@@ -40,7 +40,7 @@ public class Enemy : Entity {
     private IEnumerator EnemyAI() {
         Debug.Log("적 행동");
         EnemyAction();
-        yield return Utils.D1;
+        yield return Utils.D05;
         isActived = true;
         if (EntityManager.Instance.EnemyTurnEnd()) {
             EntityManager.Instance.ResetEnemyIsActive();

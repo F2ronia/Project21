@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1249df3a661183045bdbcb7b7f730c6f, type: 3}
+  m_Name: Normal_Intrepidity
+  m_EditorClassIdentifier: 
+  item:
+    num: 11
+    name: "\uC6A9\uB9F9"
+    cost: 2
+    value: 5
+    main: {fileID: 21300000, guid: a2912c3613f58884b96d103e5738c48c, type: 3}
+    background: {fileID: 21300000, guid: fedd6c24ea42059489331f4466f1c79f, type: 3}
+    upper: {fileID: 21300000, guid: c3c8ca34934e5634eae243d372d88775, type: 3}
+    text: "\uD53C\uD574 (5) / \uB9C8\uB098\uD68C\uBCF5 (1)"
+    type: 0
+    target: 1
+    restoreType: 2

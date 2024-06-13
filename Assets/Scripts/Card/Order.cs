@@ -32,7 +32,7 @@ public class Order : MonoBehaviour
 
         foreach (var renderer in middleRednerers) {
             renderer.sortingLayerName = sortingLayerName;
-            renderer.sortingOrder = mulOrder + 1;
+            renderer.sortingOrder = ++mulOrder;
         }
     }
 }
