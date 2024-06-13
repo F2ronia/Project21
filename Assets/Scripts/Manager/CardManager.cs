@@ -43,9 +43,13 @@ public class CardManager : MonoBehaviour {
     private enum ECardState { Nothing, CanMouseOver, CanMouseDrag}
     private enum NormalCard { Attack, Armor, Heal }
 #endregion
+#region Sound/Effect
+    private AudioSource audioSource;
+#endregion
 #region UnityEventFunction
     void Start() {
         SetupListBuffer();
+        audioSource = GetComponent<AudioSource>();
         TurnManager.OnAddCard += AddCard;
         TurnManager.OnTurnStarted += OnTurnStarted;
         TurnManager.OnTurnEnd += OnTurnEnd;
@@ -158,7 +162,9 @@ public class CardManager : MonoBehaviour {
             var card = ObjectPooling.GetObject();
             card.Setup(PopList());
             myCards.Add(card);
-
+            audioSource.Stop();
+            audioSource.Play();
+            
             SetOriginOrder();
             CardAlignment();
         }

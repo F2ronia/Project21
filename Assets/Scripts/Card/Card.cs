@@ -6,6 +6,7 @@ using TMPro;
 using DG.Tweening;
 
 public class Card : MonoBehaviour {
+#region Variables
     [SerializeField]
     private TMP_Text nameTMP;           // 이름
     //[SerializeField]
@@ -23,9 +24,14 @@ public class Card : MonoBehaviour {
 
     public Item item;
     public PRS originPRS;
+#endregion
+#region Sound/Effect
+    private AudioSource audioSource;
+#endregion
 
     public void Setup(Item _item) {
         this.item = _item;
+        audioSource = GetComponent<AudioSource>();
 
         nameTMP.text = this.item.name;
         //textTMP.text = this.item.text;   
@@ -75,6 +81,8 @@ public class Card : MonoBehaviour {
             // 어썰트 슬래시
             // 단일 6 데미지
                 ActiveCard(entity, item.value);
+                audioSource.Stop();
+                audioSource.Play();
                 break;    
             case 2:
             // 기본 방어
