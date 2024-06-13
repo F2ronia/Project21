@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
 
 public class EnemyMove : MonoBehaviour
 {
     public SpawnManager spawnManager;
     private NavMeshAgent nvAgent;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
     public int stageNum;
 
@@ -74,8 +75,13 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    public void SetUp(int _num)
+    public void SetUp(int _num, Mesh _mesh, Material _material)
     {
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        meshFilter.sharedMesh = _mesh;
+        meshRenderer.material = _material;
         stageNum = _num;
     }
 }

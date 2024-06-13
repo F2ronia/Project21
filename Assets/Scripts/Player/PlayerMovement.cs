@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,14 +9,20 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 destPos;
     private Vector3 dir;
     private Quaternion lookTarget;
+    private Animator playerAnimator;
 
     [SerializeField]
     private float speed = 5f;
 
     private bool isMove = false;
 
+    private void Start()
+    {
+        playerAnimator = transform.GetChild(0).GetComponent<Animator>();
+    }
     void Update()
     {
+        playerAnimator.SetBool("isPlayerMove", isMove);
         if (Input.GetMouseButtonDown(0))
         {
             CheckRaycast();
@@ -33,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (Physics.Raycast(ray, out hit, 100f, 7))
         {

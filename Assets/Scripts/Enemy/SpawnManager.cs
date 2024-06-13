@@ -6,6 +6,9 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class SpawnManager : MonoBehaviour
 {
+    public Mesh[] EnemyMesh;
+    public Material[] EnemyMaterial;
+
     public GameObject[] spawnPoints;
     public GameObject[] obstacles;
     public GameObject EnemyPrefab;
@@ -63,7 +66,7 @@ public class SpawnManager : MonoBehaviour
     private void EnemySpawn(Transform _tl ,int _i)
     {
         GameObject enemy = Instantiate(EnemyPrefab, _tl.position, _tl.rotation);
-        enemy.GetComponent<EnemyMove>().SetUp(_i + 1);
+        enemy.GetComponent<EnemyMove>().SetUp(_i + 1, EnemyMesh[_i], EnemyMaterial[_i]);
         enemy.GetComponent<EnemyMove>().spawnManager = gameObject.GetComponent<SpawnManager>();
 
         enemys.Add(enemy);
