@@ -1,7 +1,6 @@
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

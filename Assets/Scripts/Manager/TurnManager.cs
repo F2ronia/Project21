@@ -32,6 +32,7 @@ public class TurnManager : MonoBehaviour
 #endregion
 
     void BattleSetup() {
+        /*
         switch (eTurnMode) {
             case ETurnMode.Random:
                 myTurn = Random.Range(0, 2) == 0;
@@ -43,6 +44,8 @@ public class TurnManager : MonoBehaviour
                 myTurn = false;
                 break;
         }
+        */
+        myTurn = true;
     }
 
     public IEnumerator StartBattle() {

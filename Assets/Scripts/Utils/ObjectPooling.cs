@@ -31,6 +31,7 @@ public class ObjectPooling : MonoBehaviour
         var cardObject = Instantiate(poolingObject, cardSpawnPoint.position, Utils.QI);
         cardObject.SetActive(false);
         var card = cardObject.GetComponent<Card>();
+        card.transform.SetParent(Instance.transform);
         return card;
     }
 

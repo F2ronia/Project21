@@ -43,8 +43,6 @@ public class Utils
         get {
             Transform tr = GameObject.Find("CardLeft").transform;
             return tr;
-        } set {
-
         }
     }
 

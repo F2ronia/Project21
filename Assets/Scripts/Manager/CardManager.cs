@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.PerformanceData;
 using UnityEngine;
 
 public class CardManager : MonoBehaviour {
@@ -17,10 +18,6 @@ public class CardManager : MonoBehaviour {
     }
 #endregion
 #region SerializeField
-    [SerializeField]
-    private Transform myCardLeft;
-    [SerializeField]
-    private Transform myCardRight;
     [SerializeField]
     private ECardState eCardState;
 #endregion
@@ -78,13 +75,19 @@ public class CardManager : MonoBehaviour {
         if (myTurn) {
             for (int i=myCards.Count-1; i>=0; i--) {
                 DestoryCard(myCards[i]);
-                myCards.RemoveAt(i);
+                //myCards.RemoveAt(i);
             }
+            myCards.Clear();
         }
     }
 
     private void DestoryCard(Card card) {
         ObjectPooling.ReturnObject(card);
+    }
+    
+    public void RemoveAllMyCards() {
+        ObjectPooling.ReturnAllObject(myCards);
+        myCards.Clear();
     }
 
     private void SetupListBuffer() {
@@ -163,8 +166,8 @@ public class CardManager : MonoBehaviour {
             var card = ObjectPooling.GetObject();
             card.Setup(PopList());
             myCards.Add(card);
-            audioSource.Stop();
-            audioSource.Play();
+            //audioSource.Stop();
+            //audioSource.Play();
             
             SetOriginOrder();
             CardAlignment();
@@ -182,6 +185,7 @@ public class CardManager : MonoBehaviour {
 
     private void CardAlignment() {
         int count = myCards.Count;
+        Debug.Log(count);
 
         List<PRS> originCardPRS = new List<PRS>();
         originCardPRS = RoundAlignment(Utils.MyCardLeft, Utils.MyCardRight, count, 0.5f, Vector3.one * 1.9f);
@@ -318,13 +322,10 @@ public class CardManager : MonoBehaviour {
 
     // 전투 승리 시 이벤트
     public IEnumerator BattleReward() {
+        EntityManager.Instance.allEntity.Clear();
         RemoveAllMyCards();
         AddCardEvent();
         yield return Utils.D1;
-    }
-
-    public void RemoveAllMyCards() {
-        ObjectPooling.ReturnAllObject(myCards);
     }
 
     public void AddCardEvent() {
@@ -342,7 +343,7 @@ public class CardManager : MonoBehaviour {
             SelectUI.Instance.AddSelect(selectList[i]);
             //추후 중복 방지 알고리즘 추가
         }
-        selectList = null;
+        selectList.Clear();
         // 3개 중 1장 선택
         // SelectedObject -> ReturnSelected()
         // 선택한 카드 덱에 추가

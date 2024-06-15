@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
 
     private void Start() {
         if (EditMode) {
-        LoadTriggerEnemy();
-        CallBattle();
+            LoadTriggerEnemy();
+            CallBattle();
         }
 
         audioSource = GetComponent<AudioSource>();
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             TurnManager.OnAddCard?.Invoke(true);
         }
         if (Input.GetKeyDown(KeyCode.A)) {
-            CardManager.Instance.AddCardEvent();
+            StartCoroutine(CardManager.Instance.BattleReward());
         }
     }
 
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             EnemySpawn(entityList[i]);
         }  
 
-        entityList = null;
+        entityList.Clear();
     }
 
     public void CallAnyScene (string scene) {
