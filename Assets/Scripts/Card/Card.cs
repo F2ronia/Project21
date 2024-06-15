@@ -54,6 +54,10 @@ public class Card : MonoBehaviour {
     private void ActiveCard(Entity entity, int damage) {
     // 단일 공격
         entity.OnDamage(damage);
+        if (PlayerStatus.Instance.audio.isPlaying)
+            return;
+        else
+            PlayerStatus.Instance.PlayerAttack();
     }
     private void ActiveCard(Item.RestoreType type, int restore) {
     // 단일 회복 or 방어도 
@@ -79,8 +83,6 @@ public class Card : MonoBehaviour {
             // 어썰트 슬래시
             // 단일 6 데미지
                 ActiveCard(entity, item.value);
-                audioSource.Stop();
-                audioSource.Play();
                 break;    
             case 2:
             // 기본 방어

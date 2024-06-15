@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 // 적 생성 및 관리 스크립트
@@ -44,10 +40,14 @@ public class EntityManager : MonoBehaviour
     public Entity targetPickEntity;
     // 적 행동 실행 여부 체크
 #endregion
-#region Particle 
+#region Sound/Effect 
     [SerializeField]
     private GameObject particle;
+    private AudioSource audio;
 #endregion
+    void Start() {
+        audio = GetComponent<AudioSource>();
+    }
     void Update() {
         SetEntityState();
     }
@@ -130,6 +130,11 @@ public class EntityManager : MonoBehaviour
             return;
         
         ShowTargetPicker(true, entity);
+
+        if (audio.isPlaying)
+            return;
+        else 
+            audio.Play();
     }
     public void EntityMouseExit(Entity entity) {
         ShowTargetPicker(false, entity);
@@ -155,6 +160,10 @@ public class EntityManager : MonoBehaviour
 
     public void SelectTargetEntity(Card card) {
         StartCoroutine(DelayUntilSelect(card));
+    }
+
+    public void SetDefaultState() {
+        entityState = EntityState.Nothing;
     }
 
     private IEnumerator DelayUntilSelect(Card card) {

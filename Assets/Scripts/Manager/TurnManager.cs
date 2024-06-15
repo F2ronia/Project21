@@ -57,7 +57,6 @@ public class TurnManager : MonoBehaviour
 
     private IEnumerator StartTurn() {
         isLoading = true;
-        //GameManager.Instance.Notification("나의 턴");
         yield return delay;
         for (int i=0; i<startCardCount; i++) {
             yield return delay;

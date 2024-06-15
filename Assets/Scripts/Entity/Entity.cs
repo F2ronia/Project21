@@ -28,9 +28,6 @@ public class Entity : MonoBehaviour
     public Vector3 originPos;
     public event Action OnDeath;
     // 사망 이벤트
-#region Sound/Effect
-    private AudioSource audioSource;
-#endregion
 #region SetupFunctino
     public void Setup(Status _status) {
         this.status = _status;
@@ -51,16 +48,12 @@ public class Entity : MonoBehaviour
     }
 #endregion
 #region BattleFunction
-    void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
     protected virtual void OnEnable() {
     // 생성 시 리셋
         isDead = false;
         health = startHealth;
     }
-
+    
     public virtual void OnDamage(int damage) {
     // 데미지 입는 기능
         Sequence sequence = DOTween.Sequence()
@@ -68,8 +61,6 @@ public class Entity : MonoBehaviour
             .AppendCallback(() =>
             {
                 // 효과 처리
-                //audioSource.Stop();
-                //audioSource.Play();
                 // 데미지 연산
                 if (armor > 0) {
                 // 방어도가 존재하는 경우

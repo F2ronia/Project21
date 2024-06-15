@@ -1,7 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 using DG.Tweening;
 using UnityEngine;
+
+public enum SoundPlayer {
+    Player_Armor,
+    Player_Attack,
+    Player_Heal,
+    Player_Hit,
+    Player_HitArmor,
+    Player_Lose,
+    Player_Win
+}
 
 public class PlayerStatus : Entity
 {
@@ -11,7 +22,9 @@ public class PlayerStatus : Entity
 #endregion
     private int playerMana;
     private bool isDanger = false;
-    private AudioSource audioSource;
+    public AudioSource audio;
+    [SerializeField]
+    private AudioClip[] audioClips;
 
     public int PlayerMana {
         get {
@@ -22,7 +35,7 @@ public class PlayerStatus : Entity
     }
     private void Start() {
         startHealth = health = 20;
-        audioSource = GetComponent<AudioSource>();
+        audio = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += RestoreMana;
     }
     private void Update() {
@@ -38,22 +51,50 @@ public class PlayerStatus : Entity
         TurnManager.OnTurnStarted -= RestoreMana;
     }
 
+    public void PlayerAttack() {
+        audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Attack], Utils.SOUND5F);
+    }
+    public void PlayerWin() {
+        audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Win], Utils.SOUNDMAX);
+    }
+
     public override void OnDamage(int damage)
     {
-        base.OnDamage(damage);
+        // 데미지 연산
+        if (armor > 0) {
+        // 방어도가 존재하는 경우
+            if (armor > damage) {
+            // 방어도가 데미지보다 높은 경우
+                armor -= damage;
+            } else {
+            // 방어도와 데미지가 같거나 낮은 경우
+                int applyValue = damage-armor;
+                health -= applyValue;
+                armor -= damage;
+            }
+            if (!audio.isPlaying)
+                audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_HitArmor], Utils.SOUNDMAX);
+        } else {
+        // 방어도가 존재하지 않는 경우
+            health -= damage;
+            if (!audio.isPlaying)
+                audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Hit], Utils.SOUNDMAX);
+        }
 
-        audioSource.Stop();
-        audioSource.PlayOneShot(audioSource.clip);         
+        if (health <= 0 && !isDead)
+            Die();    
     }
 
     public override void RestoreArmor(int restorePoint)
     {
         base.RestoreArmor(restorePoint);
+        audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Armor], Utils.SOUNDMAX);
     }
 
     public override void RestoreHealth(int restorePoint)
     {
         base.RestoreHealth(restorePoint);
+        audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Heal], Utils.SOUNDMAX);
         if (startHealth < health)
             health = startHealth;
     }
@@ -70,7 +111,7 @@ public class PlayerStatus : Entity
 
     public override void Die()
     {
-        Debug.Log("플레이어 사망");
+        audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Lose], Utils.SOUNDMAX);
         CardManager.Instance.RemoveAllMyCards();
         GameManager.Instance.CallAnyScene("temp_main");
         //base.Die();    

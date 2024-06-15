@@ -29,6 +29,13 @@ public class Utils
     public static Color32 ColorDisable = new Color32(100, 100, 100, 255);
     public static Vector2 SelectLayout = new Vector2(500, 500);
     public static Vector2 ListLayout = new Vector2(200, 200);
+    public static float SOUND1F = 0.1f;
+    public static float SOUND2F = 0.2f;
+    public static float SOUND3F = 0.3f;
+    public static float SOUND4F = 0.4f;
+    public static float SOUND5F = 0.5f;
+    public static float SOUND7F = 0.7f;
+    public static float SOUNDMAX = 1f;
 
     public static Vector3 MousePos
     {

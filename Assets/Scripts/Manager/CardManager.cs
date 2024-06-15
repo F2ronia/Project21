@@ -1,8 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
 using UnityEngine;
+
+public enum SoundEffect {
+    CardDrag,
+    CardSelect,
+    CardUse,
+    CardDraw,
+    LowMana
+}
 
 public class CardManager : MonoBehaviour {
 #region Singleton
@@ -42,6 +49,8 @@ public class CardManager : MonoBehaviour {
 #endregion
 #region Sound/Effect
     private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip[] audioClips;
 #endregion
 #region UnityEventFunction
     void Start() {
@@ -66,9 +75,9 @@ public class CardManager : MonoBehaviour {
 #endregion
 #region Functions
     private void OnTurnStarted(bool myTurn) {
-        // 카드 뽑기
+        // 턴 알림창
         if (myTurn) {
-            Debug.Log("턴 돌아옴");
+            NoticePannel.Instance.Show("나의 턴");
         }
     }
     private void OnTurnEnd(bool myTurn) {
@@ -166,8 +175,7 @@ public class CardManager : MonoBehaviour {
             var card = ObjectPooling.GetObject();
             card.Setup(PopList());
             myCards.Add(card);
-            //audioSource.Stop();
-            //audioSource.Play();
+            audioSource.PlayOneShot(audioClips[(int)SoundEffect.CardDraw], Utils.SOUNDMAX);
             
             SetOriginOrder();
             CardAlignment();
@@ -185,7 +193,6 @@ public class CardManager : MonoBehaviour {
 
     private void CardAlignment() {
         int count = myCards.Count;
-        Debug.Log(count);
 
         List<PRS> originCardPRS = new List<PRS>();
         originCardPRS = RoundAlignment(Utils.MyCardLeft, Utils.MyCardRight, count, 0.5f, Vector3.one * 1.9f);
@@ -260,19 +267,25 @@ public class CardManager : MonoBehaviour {
 
         if (!onCardArea) {
             TryUseCard(selectCard);
+            audioSource.PlayOneShot(audioClips[(int)SoundEffect.CardUse], Utils.SOUNDMAX);
         }
     }
     private void CardDrag()
     {
         if (!onCardArea) {
             selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
+            audioSource.volume = Utils.SOUND4F;
+            audioSource.clip = audioClips[(int)SoundEffect.CardDrag];
+            audioSource.Play();
         }
     }
 
     public bool TryUseCard(Card card) {
         if (PlayerStatus.Instance.PlayerMana < card.item.cost) {
         // 사용하려는 카드의 비용이 현재 마나보다 많은 경우
-            Debug.Log("마나가 부족합니다");
+            audioSource.PlayOneShot(audioClips[(int)SoundEffect.LowMana], Utils.SOUNDMAX);
+            EntityManager.Instance.SetDefaultState();
+            NoticePannel.Instance.Show("마나가 부족합니다.");
         } else {
             switch(card.item.target) {
                 case Item.Target.My:
@@ -323,6 +336,7 @@ public class CardManager : MonoBehaviour {
     // 전투 승리 시 이벤트
     public IEnumerator BattleReward() {
         EntityManager.Instance.allEntity.Clear();
+        PlayerStatus.Instance.PlayerWin();
         RemoveAllMyCards();
         AddCardEvent();
         yield return Utils.D1;

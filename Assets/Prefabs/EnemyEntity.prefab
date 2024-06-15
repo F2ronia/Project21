@@ -135,6 +135,12 @@ MonoBehaviour:
     armor: 0
     health: 0
   originPos: {x: 0, y: 0, z: 0}
+  audio: {fileID: 0}
+  audioClips:
+  - {fileID: 8300000, guid: 28faf9c822fe49f4f8f8b967f61efa05, type: 3}
+  - {fileID: 8300000, guid: d9419ba0bfac1e84a95418ac5851caf6, type: 3}
+  - {fileID: 8300000, guid: f3ac17a9098ab0c4584ab82663b5a253, type: 3}
+  - {fileID: 8300000, guid: 0545cb0668b652843b18b701a37ad743, type: 3}
 --- !u!114 &-7782282371569582615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +169,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 32f0cab2b75bfb545aafac3afd655a3d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0

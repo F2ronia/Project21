@@ -3,13 +3,19 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using DG.Tweening;
-using System.Runtime.CompilerServices;
 
 public enum Active {
     Attack,     // 공격
     Defence,    // 방어 
     Enforce,    // 강화 공격
     Special     // 특수 패턴
+}
+
+public enum EnemySound {
+    Enemy_Armor,
+    Enemy_Attack,
+    Enemy_Death,
+    Enemy_Hit
 }
 
 public class Enemy : Entity {
@@ -20,7 +26,12 @@ public class Enemy : Entity {
         }
     }
 
+    public AudioSource audio;
+    [SerializeField]
+    private AudioClip[] audioClips;
+
     void Start() {
+        audio = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += OnTurnStarted;
         TurnManager.OnReadyAction += ReadyAction;
         OnDeath += EnemyDie;
@@ -72,18 +83,33 @@ public class Enemy : Entity {
     }
 
     private void EnemyAttack() {
+        audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Attack], Utils.SOUNDMAX);
         Sequence sequence = DOTween.Sequence()
             .Append(transform.DOShakePosition(1.3f))
             .AppendCallback(() => 
             {
-                // 효과 처리
                 // 데미지 처리
                 PlayerStatus.Instance.OnDamage(status.attack);
             });
     }
 
+    public override void OnDamage(int damage)
+    {
+        if (!audio.isPlaying)
+            audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Hit], Utils.SOUNDMAX);
+        base.OnDamage(damage);
+    }
+
+    public override void RestoreArmor(int restorePoint)
+    {
+        if (!audio.isPlaying)
+            audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Armor], Utils.SOUND7F);
+        base.RestoreArmor(restorePoint);
+    }
+
     private void EnemyDie() {
         Debug.Log("죽음 처리 확인");
+        audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Death], Utils.SOUNDMAX);
         DestoryEnemy();
     }
 
