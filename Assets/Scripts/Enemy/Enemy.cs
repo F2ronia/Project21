@@ -77,7 +77,7 @@ public class Enemy : Entity {
                 break;
             case Active.Enforce:
             case Active.Defence:
-                RestoreArmor(status.armor);
+                RestoreArmor(status.attack);
                 break;
         }
     }
@@ -104,7 +104,11 @@ public class Enemy : Entity {
     {
         if (!audio.isPlaying)
             audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Armor], Utils.SOUND7F);
-        base.RestoreArmor(restorePoint);
+        Sequence sequence = DOTween.Sequence()
+            .Append(transform.DOShakePosition(1.3f))
+            .AppendCallback(() => {
+                base.RestoreArmor(restorePoint);
+            });
     }
 
     private void EnemyDie() {

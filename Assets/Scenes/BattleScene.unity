@@ -1398,7 +1398,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1771,7 +1771,6 @@ MonoBehaviour:
     armor: 0
     health: 0
   originPos: {x: 0, y: 0, z: 0}
-  audio: {fileID: 0}
 --- !u!4 &844667616
 Transform:
   m_ObjectHideFlags: 0
@@ -2119,7 +2118,6 @@ MonoBehaviour:
   allEntity: []
   allEntityUi: []
   targetPickEntity: {fileID: 0}
-  particle: {fileID: 1136632439661612827, guid: 48e2fa69ba3f12243aafc7554df67fa6, type: 3}
 --- !u!4 &1034308703
 Transform:
   m_ObjectHideFlags: 0
@@ -2702,6 +2700,7 @@ GameObject:
   - component: {fileID: 1447940407}
   - component: {fileID: 1447940406}
   - component: {fileID: 1447940408}
+  - component: {fileID: 1447940409}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2843,6 +2842,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1447940409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447940405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f73315ec9b8f2584bb194dab436c9bd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles:
+  - {fileID: 1514513616569885278, guid: 39b5791cfd812e746ba8dac69ffd1d98, type: 3}
+  - {fileID: 698616346400424098, guid: 9819a2f425e5bb24a8a0785119e2b900, type: 3}
 --- !u!1 &1519496424
 GameObject:
   m_ObjectHideFlags: 0

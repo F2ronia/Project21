@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using Unity.Collections.LowLevel.Unsafe;
 
 public class Card : MonoBehaviour {
 #region Variables
@@ -53,11 +54,15 @@ public class Card : MonoBehaviour {
 #region ActiveOverloading
     private void ActiveCard(Entity entity, int damage) {
     // 단일 공격
+        // 데미지 연산
         entity.OnDamage(damage);
+        // 효과음 처리
         if (PlayerStatus.Instance.audio.isPlaying)
             return;
         else
             PlayerStatus.Instance.PlayerAttack();
+        // 파티클 처리
+        ParticleManager.Instance.SpawnParticle(Utils.SINGLE, entity.transform);
     }
     private void ActiveCard(Item.RestoreType type, int restore) {
     // 단일 회복 or 방어도 

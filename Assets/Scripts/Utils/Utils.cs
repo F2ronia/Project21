@@ -36,6 +36,8 @@ public class Utils
     public static float SOUND5F = 0.5f;
     public static float SOUND7F = 0.7f;
     public static float SOUNDMAX = 1f;
+    public const int SINGLE = 0;
+    public const int MULTI = 1;
 
     public static Vector3 MousePos
     {

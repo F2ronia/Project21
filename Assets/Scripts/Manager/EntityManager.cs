@@ -41,8 +41,6 @@ public class EntityManager : MonoBehaviour
     // 적 행동 실행 여부 체크
 #endregion
 #region Sound/Effect 
-    [SerializeField]
-    private GameObject particle;
     private AudioSource audio;
 #endregion
     void Start() {
@@ -171,10 +169,6 @@ public class EntityManager : MonoBehaviour
         yield return new WaitUntil(() => IsSelected == true);
         if (targetPickEntity != null) {
             card.CallActive(targetPickEntity, card.item.num);
-            var obj = Instantiate(particle);
-            obj.transform.parent = targetPickEntity.transform;
-            obj.transform.localPosition = Utils.VZ;
-            obj.transform.localScale = new Vector3(7.5f, 7.5f, 7.5f);
             entityState = EntityState.Nothing;
             IsSelected = false;
         }
