@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 dir;
     private Quaternion lookTarget;
     private Animator playerAnimator;
+    private AudioSource audio;
 
     [SerializeField]
     private float speed = 5f;
@@ -19,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerAnimator = transform.GetChild(0).GetComponent<Animator>();
+        audio = transform.GetComponent<AudioSource>();
     }
     void Update()
     {
@@ -32,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position += dir.normalized * Time.deltaTime * speed;
             transform.DORotate(lookTarget.eulerAngles, 1);
             isMove = (transform.position - destPos).magnitude > 0.05f;
-        }
+        } else { audio.Pause(); }
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
@@ -49,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
             dir = destPos - transform.position;
             lookTarget = Quaternion.LookRotation(dir);
             isMove = true;
+            if (!audio.isPlaying)
+                audio.Play();
         }
     }
 }

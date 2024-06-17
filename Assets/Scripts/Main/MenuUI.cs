@@ -40,6 +40,7 @@ public class MenuUI : MonoBehaviour
         skipFade.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.6f);
         GameManager.Instance.CallAnyScene("temp_stage");
+        // GameManager.Instance.CallAnyScene("MainStage");
     }
 
     IEnumerator StartIntro(float _fadeTime)
