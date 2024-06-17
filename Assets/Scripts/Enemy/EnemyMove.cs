@@ -7,9 +7,12 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     public SpawnManager spawnManager;
+    public AudioClip search_sound;
+    public AudioClip find_sound;
     private NavMeshAgent nvAgent;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
+    private AudioSource audio;
 
     public int stageNum;
 
@@ -18,6 +21,7 @@ public class EnemyMove : MonoBehaviour
     private void Start()
     {
         nvAgent = GetComponent<NavMeshAgent>();
+        audio = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -27,6 +31,8 @@ public class EnemyMove : MonoBehaviour
 
     public Vector3 boxSize = new Vector3(5, 2, 5);
 
+    bool isFindSound = false;
+    bool isSearchSound = false;
     void ViewRange()
     {
         Vector3 boxCentar = transform.position + transform.TransformDirection(Vector3.forward * 4);
@@ -47,15 +53,30 @@ public class EnemyMove : MonoBehaviour
                 {
                     isPlayerFind = true;
                     transform.GetChild(1).gameObject.SetActive(true);
+                    if (!isFindSound)
+                    {
+                        audio.PlayOneShot(find_sound);
+                        isFindSound = true;
+                    }
                     nvAgent.destination = hit.transform.position;
                 }
             }
         }
 
         if (isPlayerIn && isPlayerFind == false)
+        {
             transform.GetChild(0).gameObject.SetActive(true);
+            if (!isSearchSound)
+            {
+                audio.PlayOneShot(search_sound);
+                isSearchSound = true;
+            }
+        }
         else
+        {
             transform.GetChild(0).gameObject.SetActive(false);
+            isSearchSound = false;
+        }
     }
 
     void OnDrawGizmos()
