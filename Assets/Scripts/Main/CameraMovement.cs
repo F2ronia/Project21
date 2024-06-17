@@ -29,10 +29,10 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
-    public void CutSceneSet(int _setCode, Vector3 _moveVec)
+    public void CutSceneSet(int _setCode, Vector3 _moveVec, float _moveTime)
     {
         transform = OriTransform;
         camSet = _setCode;
-        transform.DOMove(_moveVec, 8f);
+        transform.DOMove(_moveVec, _moveTime);
     }
 }
