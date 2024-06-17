@@ -384,7 +384,7 @@ public class CardManager : MonoBehaviour {
     public void GetRemoveSelect(Item item) {
         myCardList.Remove(item);
         SelectUI.Instance.RemoveAll();
-        GameManager.Instance.CallAnyScene("temp_stage");
+        GameManager.Instance.CallAnyScene("Build_Stage");
     }
     #endregion
 #endregion

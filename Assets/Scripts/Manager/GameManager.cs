@@ -31,8 +31,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool EditMode;
     [SerializeField]
-    NoticePannel noticePannel;
-    [SerializeField]
     private EntitySO[] entitySOs;
     // 모든 적 정보 
     private List<Status> entityList;
@@ -49,6 +47,12 @@ public class GameManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += LoadSceneEvent;
+
+        if (audioSource.clip == null)
+            audioSource.clip = audioClips[(int)BGM.Main];
+
+        audioSource.loop = true;
+        audioSource.Play();
     }
 
     void Update() {
@@ -58,16 +62,17 @@ public class GameManager : MonoBehaviour
     }
 
     private void LoadSceneEvent(Scene scene, LoadSceneMode mode) {
-        if (scene.name == "temp_main") {
+        if (scene.name == "Build_Main") {
             audioSource.clip = audioClips[(int)BGM.Main];
         }
-        if (scene.name == "temp_stage") {
+        if (scene.name == "Build_Stage") {
             audioSource.clip = audioClips[(int)BGM.Stage];
         }
-        if (scene.name == "temp_battle") {
+        if (scene.name == "Build_Battle") {
             audioSource.clip = audioClips[(int)BGM.Battle_Normal];
             CallBattle();
         }
+        
         audioSource.Stop();
         audioSource.Play();
     }

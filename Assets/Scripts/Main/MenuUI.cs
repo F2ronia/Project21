@@ -39,7 +39,7 @@ public class MenuUI : MonoBehaviour
         skipFade.gameObject.SetActive(true);
         skipFade.DOFade(1, 0.5f);
         yield return new WaitForSeconds(0.6f);
-        GameManager.Instance.CallAnyScene("temp_stage");
+        GameManager.Instance.CallAnyScene("Build_Stage");
     }
 
     IEnumerator StartIntro(float _fadeTime)
@@ -75,7 +75,7 @@ public class MenuUI : MonoBehaviour
         StartCoroutine(StartFadeOut(_fadeTime * 0.5f));
         yield return new WaitForSeconds(_fadeTime * 3f);
 
-        GameManager.Instance.CallAnyScene("temp_stage");
+        GameManager.Instance.CallAnyScene("Build_Stage");
     }
 
     IEnumerator StartFadeOut(float _fadeTime)

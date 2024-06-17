@@ -71,7 +71,7 @@ public class EnemyMove : MonoBehaviour
         {
             spawnManager.EnemyOff(stageNum);
             GameManager.Instance.LoadTriggerEnemy();
-            GameManager.Instance.CallAnyScene("temp_battle");
+            GameManager.Instance.CallAnyScene("Build_Battle");
         }
     }
 
