@@ -337,6 +337,7 @@ public class CardManager : MonoBehaviour {
     public IEnumerator BattleReward() {
         EntityManager.Instance.allEntity.Clear();
         PlayerStatus.Instance.PlayerWin();
+        BattleResultUI.Instance.CallWinUI();
         RemoveAllMyCards();
         AddCardEvent();
         yield return Utils.D1;
@@ -358,6 +359,7 @@ public class CardManager : MonoBehaviour {
             //추후 중복 방지 알고리즘 추가
         }
         selectList.Clear();
+        BattleResultUI.Instance.SelectText("추가할 카드를 선택하세요.");
         // 3개 중 1장 선택
         // SelectedObject -> ReturnSelected()
         // 선택한 카드 덱에 추가
@@ -375,6 +377,7 @@ public class CardManager : MonoBehaviour {
     // 카드 제거
         // 현재 보유한 카드 리스트 보여줌
         SelectUI.Instance.ShowList(myCardList);
+        BattleResultUI.Instance.SelectText("제거할 카드를 선택하세요.");
         // 특정 카드 선택
         // SelectedObject -> RemoveSelected()
         // 선택한 카드 덱에서 제거

@@ -945,6 +945,7 @@ MonoBehaviour:
   particles:
   - {fileID: 1514513616569885278, guid: 39b5791cfd812e746ba8dac69ffd1d98, type: 3}
   - {fileID: 698616346400424098, guid: 9819a2f425e5bb24a8a0785119e2b900, type: 3}
+  - {fileID: 5618510915798226631, guid: ab0cbaff918f7c04abe754eb88cc8722, type: 3}
 --- !u!1 &927702709
 GameObject:
   m_ObjectHideFlags: 0

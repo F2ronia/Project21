@@ -22,6 +22,8 @@ public class PlayerStatus : Entity
 #endregion
     private int playerMana;
     private bool isDanger = false;
+    [SerializeField]
+    private Transform hitPoint;
     public AudioSource audio;
     [SerializeField]
     private AudioClip[] audioClips;
@@ -34,7 +36,7 @@ public class PlayerStatus : Entity
         }
     }
     private void Start() {
-        startHealth = health = 20;
+        health = startHealth;
         audio = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += RestoreMana;
     }
@@ -81,6 +83,14 @@ public class PlayerStatus : Entity
                 audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Hit], Utils.SOUNDMAX);
         }
 
+        // 파티클 추가 및 화면 흔들림 구현
+        ParticleManager.Instance.SpawnParticle(Utils.HIT, hitPoint);
+        Sequence sequence = DOTween.Sequence()
+            .Append(Utils.MainCam.transform.DOShakePosition(.5f))
+            .OnComplete(() =>
+                Utils.MainCam.transform.position = Utils.MainCamLocalPos
+            );
+
         if (health <= 0 && !isDead)
             Die();    
     }
@@ -113,7 +123,6 @@ public class PlayerStatus : Entity
     {
         audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Lose], Utils.SOUNDMAX);
         CardManager.Instance.RemoveAllMyCards();
-        GameManager.Instance.CallAnyScene("temp_main");
-        //base.Die();    
+        BattleResultUI.Instance.CallLoseUI();
     }
 }

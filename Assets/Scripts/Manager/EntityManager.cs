@@ -128,6 +128,7 @@ public class EntityManager : MonoBehaviour
             return;
         
         ShowTargetPicker(true, entity);
+        entity.GetComponent<SpectrumController>().ReturnColor(true);
 
         if (audio.isPlaying)
             return;
@@ -136,6 +137,7 @@ public class EntityManager : MonoBehaviour
     }
     public void EntityMouseExit(Entity entity) {
         ShowTargetPicker(false, entity);
+        entity.GetComponent<SpectrumController>().ReturnColor(false);
     }
     public void EntityMouseUp() {
         EntityCheck();

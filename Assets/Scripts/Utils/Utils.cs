@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UIElements.Experimental;
 
 [System.Serializable]
 public class PRS {
@@ -27,8 +28,9 @@ public class Utils
     public static int MaxMana = 3;
     public static Color32 ColorOrigin = new Color32(255, 255, 255, 255);
     public static Color32 ColorDisable = new Color32(100, 100, 100, 255);
-    public static Vector2 SelectLayout = new Vector2(500, 500);
-    public static Vector2 ListLayout = new Vector2(200, 200);
+    public static Vector2 SelectLayout = new Vector2(500f, 500f);
+    public static Vector2 ListLayout = new Vector2(200f, 200f);
+    public static Vector3 MainCamLocalPos = new Vector3(0, 0, -100);
     public static float SOUND1F = 0.1f;
     public static float SOUND2F = 0.2f;
     public static float SOUND3F = 0.3f;
@@ -38,6 +40,7 @@ public class Utils
     public static float SOUNDMAX = 1f;
     public const int SINGLE = 0;
     public const int MULTI = 1;
+    public const int HIT = 2;
 
     public static Vector3 MousePos
     {
@@ -59,6 +62,13 @@ public class Utils
         get {
             Transform tr = GameObject.Find("CardRight").transform;
             return tr;
+        }
+    }
+
+    public static GameObject MainCam {
+        get {
+            GameObject cm = GameObject.Find("Main Camera");
+            return cm;
         }
     }
 }

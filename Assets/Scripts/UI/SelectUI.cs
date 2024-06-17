@@ -30,6 +30,7 @@ public class SelectUI : MonoBehaviour
 
         var temp = Instantiate(selectPrefab, Utils.VZ, Utils.QI);
         temp.transform.parent = this.transform;
+        temp.transform.localScale = Utils.SO;
 
         temp.GetComponent<Card>().item = item;
         temp.GetComponent<Image>().sprite = item.main;
@@ -50,6 +51,7 @@ public class SelectUI : MonoBehaviour
         for (int i=0; i<items.Count; i++) {
             var temp = Instantiate(listPrefab, Utils.VZ, Utils.QI);
             temp.transform.parent = this.transform;
+            temp.transform.localScale = Utils.SO;
 
             temp.GetComponent<Card>().item = items[i];
             temp.GetComponent<Image>().sprite = items[i].main;
