@@ -8,6 +8,7 @@ public class MenuUI : MonoBehaviour
 {
     public GameObject mainCamera;
 
+    public GameObject mainImgae;
     public GameObject menuUI;
     public GameObject introUI;
 
@@ -26,10 +27,22 @@ public class MenuUI : MonoBehaviour
         fade = introUI.transform.GetChild(2).GetComponent<Image>();
         skipFade = introUI.transform.GetChild(5).GetComponent<Image>();
         storyText = introUI.transform.GetChild(3).GetComponent<Text>();
+
+        menuUI.transform.GetChild(2).GetComponent<Image>().DOFade(0.0f, 1f).SetLoops(-1, LoopType.Yoyo);
     }
 
-    public void StartIntro()
+    private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && !isStartIntro)
+        {
+            StartIntro();
+        }
+    }
+
+    bool isStartIntro = false;
+    private void StartIntro()
+    {
+        isStartIntro = true;
         introUI.SetActive(true);
         StartCoroutine(StartIntro(1f));
     }
@@ -53,6 +66,7 @@ public class MenuUI : MonoBehaviour
         introUI.transform.GetChild(0).gameObject.SetActive(true);
         introUI.transform.GetChild(1).gameObject.SetActive(true);
         menuUI.SetActive(false);
+        mainImgae.SetActive(false);
         storyImage[0].SetActive(true);
         mainCamera.GetComponent<CameraMovement>().CutSceneSet(1, new Vector3(1.5f, -2f, -21f), 15f);
         yield return StartCoroutine(StoryTextSet("¸î³â Àü...", 2f));
