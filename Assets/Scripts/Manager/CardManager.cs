@@ -38,6 +38,12 @@ public class CardManager : MonoBehaviour {
     // 카드 덱
     private List<Card> myCards;
     // 현재 플레이어가 소지한 카드
+    public int MyCards {
+    // 플레이 중 덱에 남아있는 카드 수 
+        get {
+            return listBuffer.Count;
+        }
+    }
     private List<Item> selectList;
     // 카드 추가 이벤트용 리스트
     private Card selectCard;

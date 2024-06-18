@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Video;
+using DG.Tweening;
 
 public class EnemyUI : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class EnemyUI : MonoBehaviour
     public Image actionImg;
     public Sprite[] sprites;
     public GameObject armor;
+    public GameObject hit;
     void Start() {
         uiCan = GetComponentInParent<Canvas>();
         uiCam = uiCan.worldCamera;
@@ -74,5 +77,27 @@ public class EnemyUI : MonoBehaviour
     private void SetArmorImg(bool isActive) {
         armor.SetActive(isActive);
         armor.GetComponentInChildren<TMP_Text>().text = enemy.armor.ToString();
+    }
+
+    public void SetHitText(int damage) {
+        hit.SetActive(true);
+
+        var hitText = hit.GetComponent<TMP_Text>();
+        hitText.text = damage.ToString();
+
+        PlayParticle();
+    }
+
+    private void PlayParticle() {
+        var particles = hit.GetComponentsInChildren<ParticleSystem>();
+
+        foreach(ParticleSystem system in particles)
+        {
+            system.Play();    
+        }
+
+        Sequence sequence = DOTween.Sequence()
+            .Append(hit.transform.DOScale(new Vector3(3,3,3), 1f).SetEase(Ease.OutCirc))
+            .Append(hit.transform.DOScale(Utils.VZ, 0.5f).SetEase(Ease.OutCirc));
     }
 }

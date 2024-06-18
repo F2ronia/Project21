@@ -46,12 +46,15 @@ TagManager:
   - name: Entity
     uniqueID: 2828730039
     locked: 0
-  - name: Card
+  - name: UI
     uniqueID: 922565517
     locked: 0
   - name: Particle
     uniqueID: 3669326529
     locked: 0
-  - name: UI
+  - name: Card
     uniqueID: 1070503647
+    locked: 0
+  - name: 
+    uniqueID: 3678892167
     locked: 0

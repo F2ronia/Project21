@@ -91,6 +91,9 @@ public class PlayerStatus : Entity
                 Utils.MainCam.transform.position = Utils.MainCamLocalPos
             );
 
+        // 데미지 텍스트 표기
+        BattleUIManager.Instance.SetValueText(damage, Utils.ATTACK);
+
         if (health <= 0 && !isDead)
             Die();    
     }
@@ -99,18 +102,31 @@ public class PlayerStatus : Entity
     {
         base.RestoreArmor(restorePoint);
         audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Armor], Utils.SOUNDMAX);
+        // 데미지 텍스트 표기
+        BattleUIManager.Instance.SetValueText(restorePoint, Utils.ARMOR);
     }
 
     public override void RestoreHealth(int restorePoint)
     {
+        int point = restorePoint;
+
         base.RestoreHealth(restorePoint);
         audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Heal], Utils.SOUNDMAX);
-        if (startHealth < health)
+        if (startHealth < health) {
             health = startHealth;
+            point = 0;
+        } else if (health > 17) {
+            point = startHealth-health;
+        }
+        // 데미지 텍스트 표기
+        BattleUIManager.Instance.SetValueText(point, Utils.HEAL);
+
     }
 
     public void RestoreMana(int restorePoint) {
         PlayerMana += restorePoint;
+        // 데미지 텍스트 표기
+        BattleUIManager.Instance.SetValueText(restorePoint, Utils.MANA);
     }
 
     public void RestoreMana(bool myTurn) {

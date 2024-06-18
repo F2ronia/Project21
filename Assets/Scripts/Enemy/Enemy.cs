@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using DG.Tweening;
+using HighlightingSystem;
 
 public enum Active {
     Attack,     // 공격
@@ -29,8 +30,20 @@ public class Enemy : Entity {
     public AudioSource audio;
     [SerializeField]
     private AudioClip[] audioClips;
+    public GameObject deathEvent;
+    private EnemyUI enemyUI;
 
     void Start() {
+        for (int i=EntityManager.Instance.allEntity.Count-1; i>=0 ; i--) {
+        // 연결된 UI 객체 찾기
+            var temp = EntityManager.Instance.allEntityUi[i].enemy;
+            var tempUI = EntityManager.Instance.allEntityUi[i];
+
+            if (temp == this) {
+                enemyUI = tempUI;
+            }
+        }
+
         audio = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += OnTurnStarted;
         TurnManager.OnReadyAction += ReadyAction;
@@ -97,6 +110,7 @@ public class Enemy : Entity {
     {
         if (!audio.isPlaying)
             audio.PlayOneShot(audioClips[(int)EnemySound.Enemy_Hit], Utils.SOUNDMAX);
+        enemyUI.SetHitText(damage);
         base.OnDamage(damage);
     }
 
@@ -119,23 +133,18 @@ public class Enemy : Entity {
 
     private void DestoryEnemy() {
     // 죽음 처리 + 애니메이션
+        this.GetComponent<SpriteRenderer>().enabled = false;
+        this.GetComponent<Highlighter>().enabled = false;
+        deathEvent.SetActive(true);
         Sequence sequence = DOTween.Sequence()
             .Append(transform.DOShakePosition(1.3f))
-            .Append(transform.DOScale(Utils.VZ, 0.3f)).SetEase(Ease.OutCirc)
+            //.Append(transform.DOScale(Utils.VZ, 0.3f)).SetEase(Ease.OutCirc)
             .OnComplete(() =>
             {
-                for (int i=EntityManager.Instance.allEntity.Count-1; i>=0 ; i--) {
-                // 연결된 UI 객체 찾기
-                    var temp = EntityManager.Instance.allEntityUi[i].enemy;
-                    var tempUI = EntityManager.Instance.allEntityUi[i];
-
-                    if (temp == this) {
-                        Destroy(tempUI.gameObject);
-                        EntityManager.Instance.allEntityUi.Remove(tempUI);
-                    }
-                }
-                Destroy(gameObject);
+                Destroy(gameObject, 2f);
                 EntityManager.Instance.allEntity.Remove(this);
+                Destroy(enemyUI.gameObject);
+                EntityManager.Instance.allEntityUi.Remove(enemyUI);
 
                 EntityManager.Instance.HideTargetPicker();
                 // 타겟 지정된 상태 대비하여 숨김 처리

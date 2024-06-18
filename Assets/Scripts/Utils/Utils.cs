@@ -41,6 +41,10 @@ public class Utils
     public const int SINGLE = 0;
     public const int MULTI = 1;
     public const int HIT = 2;
+    public const int ATTACK = 0;
+    public const int ARMOR = 1;
+    public const int HEAL = 2;
+    public const int MANA = 3;
 
     public static Vector3 MousePos
     {
