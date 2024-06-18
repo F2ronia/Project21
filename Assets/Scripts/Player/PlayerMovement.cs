@@ -19,6 +19,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        if (SpawnManager.Instance.playerPos != Vector3.zero)
+        {
+            gameObject.transform.position = SpawnManager.Instance.playerPos;
+            gameObject.transform.rotation = SpawnManager.Instance.playerRot;
+        }
+
         playerAnimator = transform.GetChild(0).GetComponent<Animator>();
         audio = transform.GetComponent<AudioSource>();
     }

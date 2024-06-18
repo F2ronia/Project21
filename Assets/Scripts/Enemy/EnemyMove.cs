@@ -90,7 +90,7 @@ public class EnemyMove : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            spawnManager.EnemyOff(stageNum);
+            SpawnManager.Instance.EnemyEnter(stageNum, other.transform.position, other.transform.rotation);
             GameManager.Instance.LoadTriggerEnemy();
             GameManager.Instance.CallAnyScene("Build_Battle");
         }
