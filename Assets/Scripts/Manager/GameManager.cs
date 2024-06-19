@@ -143,4 +143,11 @@ public class GameManager : MonoBehaviour
             audioSource.Play();
         }
     }
+
+    public void GameOver()
+    {
+        Destroy(GameObject.Find("SpawnManager"));
+        Destroy(GameObject.Find("CardManager"));
+        SceneManager.LoadScene("Build_Main");
+    }
 }

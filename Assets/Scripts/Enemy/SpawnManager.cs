@@ -39,6 +39,8 @@ public class SpawnManager : MonoBehaviour
     private bool[] isSpawnNum = new bool[9];
     private bool[] isObstacles = new bool[4];
 
+    bool isGameStart = false;
+
     private void Start()
     {
         DataSetting();
@@ -89,13 +91,18 @@ public class SpawnManager : MonoBehaviour
                     break;
             }
         }
+        isGameStart = true;
     }
-
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Build_Stage")
         {
             StageSetting();
+            if (isSpawnNum[8] == false && isGameStart)
+            {
+                GameObject.Find("MainUI").transform.GetChild(1).gameObject.SetActive(true);
+                isGameStart = false;
+            }
         }
     }
     void StageSetting()
