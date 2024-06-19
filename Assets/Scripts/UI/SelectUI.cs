@@ -34,7 +34,10 @@ public class SelectUI : MonoBehaviour
 
         temp.GetComponent<Card>().item = item;
         temp.GetComponent<Image>().sprite = item.main;
-        temp.GetComponentInChildren<TMP_Text>().text = item.name;
+
+        var text = temp.GetComponentsInChildren<TMP_Text>();
+        text[0].text = item.name;
+        text[1].text = item.text;
     }
 
     public void RemoveAll() { 
@@ -56,6 +59,7 @@ public class SelectUI : MonoBehaviour
             temp.GetComponent<Card>().item = items[i];
             temp.GetComponent<Image>().sprite = items[i].main;
             temp.GetComponentInChildren<TMP_Text>().text = items[i].name;
+
         }
     }
 }

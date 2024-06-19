@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     private void Start() {
         if (EditMode) {
-            LoadTriggerEnemy(Type.Normal);
+            LoadTriggerEnemy(Type.Elite);
             CallBattle();
         }
 
@@ -86,25 +86,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Notification(string msg) {
-        Debug.Log("테스트");
-        //noticePannel.Show(msg);
-    }
-
     private void EnemySpawn(Status status) {
         EntityManager.Instance.SpawnEntity(status);
         //EntityManager.Instance.InsertEmptyEntity(Utils.MousePos.x);
     }
 
     public void LoadTriggerEnemy(Type type) {
-        Debug.Log("데이터 불러오기 ");
         if (entityList == null)
             entityList = new List<Status>();
 
         if (type == Type.Elite)
             entityList.Add(entitySOs[Utils.ELITE].status);
         else {
-            for (int i=0; i<UnityEngine.Random.Range(0, 3); i++) {
+            for (int i=0; i<UnityEngine.Random.Range(1, 3); i++) {
                 Status status = entitySOs[UnityEngine.Random.Range(Utils.NORMAL1, Utils.NORMAL2) + 1].status;
                 entityList.Add(status);
             } 

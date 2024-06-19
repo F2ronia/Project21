@@ -2698,8 +2698,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 500, y: 500}
-  m_Spacing: {x: 50, y: 100}
+  m_CellSize: {x: 400, y: 400}
+  m_Spacing: {x: 100, y: 100}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!114 &1132157853
@@ -3107,7 +3107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1447940406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3120,7 +3120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e40fd42d7c8b8374190f17202a7197dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EditMode: 1
+  EditMode: 0
   entitySOs:
   - {fileID: 11400000, guid: 0a99434faf38b4045896aa5e0fda49a8, type: 2}
   - {fileID: 11400000, guid: c69f758b71bf8ff4e94f856eef859dee, type: 2}

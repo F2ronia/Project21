@@ -30,7 +30,7 @@ public class Utils
     public static int MaxMana = 3;
     public static Color32 ColorOrigin = new Color32(255, 255, 255, 255);
     public static Color32 ColorDisable = new Color32(100, 100, 100, 255);
-    public static Vector2 SelectLayout = new Vector2(500f, 500f);
+    public static Vector2 SelectLayout = new Vector2(400f, 400f);
     public static Vector2 ListLayout = new Vector2(200f, 200f);
     public static Vector3 MainCamLocalPos = new Vector3(0, 0, -100);
     public static float SOUND1F = 0.1f;
