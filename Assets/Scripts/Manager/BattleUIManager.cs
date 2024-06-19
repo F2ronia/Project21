@@ -18,6 +18,8 @@ public class BattleUIManager : MonoBehaviour
     public GameObject armor;
     public TMP_Text count_text;
     public GameObject value_text;
+    public TMP_Text turn_cnt;
+    public GameObject turnImg;
 
     void Update() {
         for (int i=0; i < 3; i++) {
@@ -39,6 +41,7 @@ public class BattleUIManager : MonoBehaviour
         }
 
         count_text.text = CardManager.Instance.MyCards.ToString();
+        turn_cnt.text = TurnManager.Instance.turnCnt.ToString();
     }
 
     private void SetMpImg(Image img, bool isActive) {
@@ -72,5 +75,11 @@ public class BattleUIManager : MonoBehaviour
         Sequence sequence = DOTween.Sequence()
             .Append(value_text.transform.DOScale(new Vector3(2,2,2), 1f).SetEase(Ease.OutCirc))
             .Append(value_text.transform.DOScale(Utils.VZ, 0.5f).SetEase(Ease.OutCirc));
+    }
+
+    public void SetTurnImgAnim() {
+        Sequence sequence = DOTween.Sequence()
+            .Append(turnImg.transform.DORotate(new Vector3(0, 180, 0), 1f))
+            .Append(turnImg.transform.DORotate(new Vector3(0, 0, 0), 1f));
     }
 }

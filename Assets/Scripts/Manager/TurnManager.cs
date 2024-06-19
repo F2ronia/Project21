@@ -27,6 +27,7 @@ public class TurnManager : MonoBehaviour
     public static Action<bool> OnAddCard;
     public static event Action<bool> OnTurnStarted;
     public static event Action<bool> OnTurnEnd;
+    public int turnCnt = -1;
 
     private enum ETurnMode { Random, My, Ohter }
 #endregion

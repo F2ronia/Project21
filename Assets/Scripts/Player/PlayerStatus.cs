@@ -39,6 +39,7 @@ public class PlayerStatus : Entity
         health = startHealth;
         audio = GetComponent<AudioSource>();
         TurnManager.OnTurnStarted += RestoreMana;
+        TurnManager.OnTurnStarted += CountTurn;
     }
     private void Update() {
         if (health > 10)
@@ -51,6 +52,7 @@ public class PlayerStatus : Entity
 
     private void OnDestroy() {
         TurnManager.OnTurnStarted -= RestoreMana;
+        TurnManager.OnTurnStarted -= CountTurn;
     }
 
     public void PlayerAttack() {
@@ -140,5 +142,12 @@ public class PlayerStatus : Entity
         audio.PlayOneShot(audioClips[(int)SoundPlayer.Player_Lose], Utils.SOUNDMAX);
         CardManager.Instance.RemoveAllMyCards();
         BattleResultUI.Instance.CallLoseUI();
+    }
+
+    public void CountTurn(bool myTurn) {
+        if (myTurn) {
+            TurnManager.Instance.turnCnt++;
+            BattleUIManager.Instance.SetTurnImgAnim();
+        }
     }
 }

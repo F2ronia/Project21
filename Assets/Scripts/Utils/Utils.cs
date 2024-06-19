@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -45,6 +47,9 @@ public class Utils
     public const int ARMOR = 1;
     public const int HEAL = 2;
     public const int MANA = 3;
+    public const int NORMAL1 = 0;
+    public const int NORMAL2 = 1;
+    public const int ELITE = 2;
 
     public static Vector3 MousePos
     {

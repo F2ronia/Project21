@@ -1,8 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 using UnityEngine.AI;
+
+public enum Type {
+    Normal,
+    Elite
+}
 
 public class EnemyMove : MonoBehaviour
 {
@@ -13,6 +19,7 @@ public class EnemyMove : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private AudioSource audio;
+    public Type type;
 
     public int stageNum;
 
@@ -91,7 +98,7 @@ public class EnemyMove : MonoBehaviour
         if (other.tag == "Player")
         {
             SpawnManager.Instance.EnemyEnter(stageNum, other.transform.position, other.transform.rotation);
-            GameManager.Instance.LoadTriggerEnemy();
+            GameManager.Instance.LoadTriggerEnemy(type);
             GameManager.Instance.CallAnyScene("Build_Battle");
         }
     }
@@ -104,5 +111,10 @@ public class EnemyMove : MonoBehaviour
         meshFilter.sharedMesh = _mesh;
         meshRenderer.material = _material;
         stageNum = _num;
+
+        if (_num == 5) 
+            type = Type.Elite;
+        else
+            type = Type.Normal;
     }
 }

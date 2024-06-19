@@ -1007,8 +1007,8 @@ MonoBehaviour:
   EditMode: 0
   entitySOs:
   - {fileID: 11400000, guid: 0a99434faf38b4045896aa5e0fda49a8, type: 2}
+  - {fileID: 11400000, guid: b636a9f57519f01419c7432632c6744f, type: 2}
   - {fileID: 11400000, guid: c69f758b71bf8ff4e94f856eef859dee, type: 2}
-  - {fileID: 11400000, guid: 0a99434faf38b4045896aa5e0fda49a8, type: 2}
   audioClips:
   - {fileID: 8300000, guid: a4b13da2d11c5864c91687f8cfe92e56, type: 3}
   - {fileID: 8300000, guid: f1f0933fdd592c24e8e50ffadcc29461, type: 3}

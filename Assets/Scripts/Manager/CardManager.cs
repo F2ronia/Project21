@@ -124,7 +124,7 @@ public class CardManager : MonoBehaviour {
     }
     private void SetupMyCardList(Item item) {
     // 초기 카드 세팅
-    /*
+    
         if (item.type == Item.Type.Normal) {
         // 기본 카드 추가
         // 공격 5 : 방어 3 : 회복 2
@@ -143,8 +143,8 @@ public class CardManager : MonoBehaviour {
                     break;
             }
         }
-    */
-        myCardList.Add(item);
+    
+        //myCardList.Add(item);
         SetupMyCardList();
         // 내 카드 데이터 세팅
     }
