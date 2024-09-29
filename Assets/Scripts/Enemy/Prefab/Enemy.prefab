@@ -46,7 +46,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4086455714278681129}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 5372921756861361759, guid: a0ff4f41c91d9de46b2633f6c98d2a51, type: 3}
 --- !u!23 &4086455714278681134
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -8199266967990639635, guid: a0ff4f41c91d9de46b2633f6c98d2a51, type: 3}
   - {fileID: -6146566284528985535, guid: a0ff4f41c91d9de46b2633f6c98d2a51, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -118,6 +118,7 @@ MonoBehaviour:
   spawnManager: {fileID: 0}
   search_sound: {fileID: 8300000, guid: 930437b21a852410595bc9db5173b97c, type: 3}
   find_sound: {fileID: 8300000, guid: 68378f764d6b3426fb75496eeb422abb, type: 3}
+  type: 0
   stageNum: 0
   boxSize: {x: 5, y: 2, z: 5}
 --- !u!195 &4086455714278681123
